@@ -12,6 +12,7 @@
  */
 use lithium\storage\Cache;
 use lithium\core\Libraries;
+use lithium\net\http\Router;
 use lithium\action\Dispatcher;
 use lithium\storage\cache\adapter\Apc;
 
@@ -55,6 +56,28 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 
 	if ($cache != Libraries::cache()) {
 		Cache::write('default', $key, Libraries::cache(), '+1 day');
+	}
+	return $result;
+});
+
+Router::applyFilter('connect', function($self, $params, $chain) {
+	if (is_object($route = $params['template'])) {
+		return $chain->next($self, $params, $chain);
+	}
+	$key = "route.{$route}";
+
+	if ($cache = Cache::read('default', $key)) {
+		if (is_object($params['options'])) {
+			$params['options'] = array('handler' => $params['options']);
+		}
+		$params['options'] += $cache + array('compile' => false);
+	}
+	$result = $chain->next($self, $params, $chain);
+
+	if (!$cache) {
+		$cache = $result->export();
+		unset($cache['handler']);
+		Cache::write('default', $key, $cache);
 	}
 	return $result;
 });
