@@ -125,14 +125,12 @@ foreach (array('phone', 'postalCode', 'ssn') as $name) {
  * by the client.
  */
 $setLocale = function($self, $params, $chain) {
-	$request = $params['request'];
-	$controller = $chain->next($self, $params, $chain);
-
-	if (!$request->locale) {
-		$request->params['locale'] = Locale::preferred($request);
+	if (!$params['request']->locale()) {
+		$params['request']->locale(Locale::preferred($params['request']));
 	}
-	Environment::set(Environment::get(), array('locale' => $request->locale));
-	return $controller;
+	Environment::set(true, array('locale' => $params['request']->locale()));
+
+	return $chain->next($self, $params, $chain);
 };
 ActionDispatcher::applyFilter('_callable', $setLocale);
 ConsoleDispatcher::applyFilter('_callable', $setLocale);
