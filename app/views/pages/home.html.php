@@ -46,6 +46,10 @@ $checks = array(
 		if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
 			$solution  = 'To fix this, run the following from the command line: ';
 			$solution .= "<code>$ chmod -R 0777 {$path}</code>.";
+		} else {
+			$path = realpath($path);
+			$solution  = 'To fix this, give <code>modify</code> rights to the user ';
+			$solution .= "<code>Everyone</code> on directory <code>{$path}</code>.";
 		}
 		return $notify(
 			'fail',
@@ -116,8 +120,11 @@ $checks = array(
 		);
 	},
 	'tests' => function() use ($notify, $self) {
-		$tests = $self->html->link('run all tests', '/test/all');
-		$dashboard = $self->html->link('test dashboard', '/test');
+		$tests = $self->html->link('run all tests', array(
+			'controller' => 'lithium\test\Controller',
+			'args' => 'all'
+		));
+		$dashboard = $self->html->link('test dashboard', array('controller' => 'lithium\test\Controller'));
 		$ticket = $self->html->link('file a ticket', 'http://dev.lithify.me/lithium/tickets');
 
 		return $notify(
