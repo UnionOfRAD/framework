@@ -118,7 +118,7 @@ $checks = array(
 	'tests' => function() use ($notify, $self) {
 		$tests = $self->html->link('run all tests', '/test/all');
 		$dashboard = $self->html->link('test dashboard', '/test');
-		$ticket = $self->html->link('file a ticket', 'http://dev.lithify.me/lithium/tickets');
+		$ticket = $self->html->link('file a ticket', 'https://github.com/UnionOfRAD/lithium/issues');
 
 		return $notify(
 			'notice',
