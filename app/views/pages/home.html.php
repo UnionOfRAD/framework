@@ -172,11 +172,11 @@ $checks = array(
 
 <h3>Additional Resources</h3>
 <ul class="additional-resources">
-	<li><?php echo $this->html->link('Documentation (Draft)', 'http://dev.lithify.me/drafts/source/en'); ?></li>
+	<li><?php echo $this->html->link('Documentation (Draft)', 'http://lithify.me/docs/manual'); ?></li>
 	<li><?php echo $this->html->link('API Documentation', 'http://lithify.me/docs/lithium'); ?></li>
 	<li>
-		Development <?php echo $this->html->link('Wiki', 'http://dev.lithify.me/lithium/wiki'); ?>
-		and <?php echo $this->html->link('Timeline', 'http://dev.lithify.me/lithium/timeline'); ?>
+		Development <?php echo $this->html->link('Wiki', 'https://github.com/UnionOfRAD/lithium/wiki'); ?>
+		and <?php echo $this->html->link('Timeline', 'https://github.com/UnionOfRAD/lithium/commits/master'); ?>
 	</li>
 	<li>
 		<?php echo $this->html->link('#li3 general support', 'irc://irc.freenode.net/#li3'); ?>
