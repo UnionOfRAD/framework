@@ -20,18 +20,18 @@ $notify = function($status, $message, $solution = null) {
 };
 
 $support = function($classes) {
-	$result = '';
+	$result = '<ul class="indicated">';
 
 	foreach ($classes as $class => $enabled) {
 		$name = substr($class, strrpos($class, '\\') + 1);
 		$url = 'http://lithify.me/docs/' . str_replace('\\', '/', $class);
-		$status = $enabled ? '&#x2714;' : '&#x2718;';
-		$enabled = $enabled ? ' enabled' : '';
+		$class = $enabled ? 'enabled' : 'disabled';
+		$title = $enabled ? "Adapter `{$name}` is enabled." : "Adapter `{$name}` is disabled.";
 
-		$item = "<div class=\"indicator{$enabled}\">{$status}</div>";
-		$item .= "<a href=\"{$url}\">{$name}</a>";
-		$result .= "<p>{$item}</p>";
+		$result .= "<li><a href=\"{$url}\" title=\"{$title}\" class=\"{$class}\">{$name}</a></li>";
 	}
+	$result .= '</ul>';
+
 	return $result;
 };
 
@@ -147,7 +147,7 @@ $checks = array(
 		return $notify(
 			'notice',
 			'Database support',
-			'<div class="test-result solution">' . $support($map) . '</div>'
+			$support($map)
 		);
 	},
 	'cacheSupport' => function() use ($notify, $support) {
@@ -158,7 +158,7 @@ $checks = array(
 		return $notify(
 			'notice',
 			'Cache support',
-			'<div class="test-result solution">' . $support($map) . '</div>'
+			$support($map)
 		);
 	}
 );
