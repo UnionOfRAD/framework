@@ -172,17 +172,31 @@ $checks = array(
 
 <h3>Additional Resources</h3>
 <ul class="additional-resources">
-	<li><?php echo $this->html->link('Documentation (Draft)', 'http://lithify.me/docs/manual'); ?></li>
-	<li><?php echo $this->html->link('API Documentation', 'http://lithify.me/docs/lithium'); ?></li>
 	<li>
-		Development <?php echo $this->html->link('Wiki', 'https://github.com/UnionOfRAD/lithium/wiki'); ?>
-		and <?php echo $this->html->link('Timeline', 'https://github.com/UnionOfRAD/lithium/commits/master'); ?>
+		<?php echo $this->html->link('Quickstart', 'http://lithify.me/docs/manual/quickstart'); ?>
+		is a guide for PHP users who are looking to get a good idea of what Lithium can do.
+		The guide is part of the official Lithium manual,
+		<?php echo $this->html->link('The Definitive Guide', 'http://lithify.me/docs/manual'); ?>.
 	</li>
 	<li>
-		<?php echo $this->html->link('#li3 general support', 'irc://irc.freenode.net/#li3'); ?>
-		and
-		<?php echo $this->html->link('#li3-core core discussion', 'irc://irc.freenode.net/#li3-core'); ?>
-		IRC channels
-		(<?php echo $this->html->link('logs', 'http://lithify.me/bot/logs'); ?>)
+		The <?php echo $this->html->link('API documentation', 'http://lithify.me/docs/lithium'); ?>
+		has all the implementation details you've been looking for.
+	</li>
+	<li>
+		Chat with other Lithium users and the team developing Lithium.
+		For <em>general support</em> hop on the
+		<?php echo $this->html->link('#li3 channel', 'irc://irc.freenode.net/#li3'); ?>
+		or read the
+		<?php echo $this->html->link('logs', 'http://lithify.me/bot/logs/li3'); ?>.
+		For <em>core discussions</em> join us in the
+		<?php echo $this->html->link('#li3-core channel', 'irc://irc.freenode.net/#li3-core'); ?>
+		or read the
+		<?php echo $this->html->link('logs', 'http://lithify.me/bot/logs/li3-core'); ?>.
+	</li>
+	<li>
+		Browse the Lithium
+		<?php echo $this->html->link('Repository', 'https://github.com/UnionOfRAD/lithium'); ?>
+		or read the
+		<?php echo $this->html->link('Wiki', 'https://github.com/UnionOfRAD/lithium/wiki'); ?>.
 	</li>
 </ul>

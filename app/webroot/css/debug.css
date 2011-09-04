@@ -598,8 +598,12 @@ div.code-coverage-results span.result-good {
 	margin-left: 1.5em;
 }
 .app .additional-resources {
+	width: 560px;
 	list-style: none;
 	margin: 0;
+}
+.app .additional-resources li {
+	margin-bottom: .5em;
 }
 .app .indicated {
 	margin: 0;
