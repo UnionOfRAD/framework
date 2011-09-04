@@ -1,16 +1,17 @@
 @charset "utf-8";
 
-/**
- * Lithium: the most rad php framework
- *
- * @copyright     Copyright 2011, Union of RAD (http://union-of-rad.org)
- * @license       http://opensource.org/licenses/bsd-license.php The BSD License
- */
-* {
-	margin: 0;
-	padding: 0;
-}
+/*-------------------------------------------------------------------------------------------------
+   Lithium: the most rad php framework
 
+   @copyright     Copyright 2009, Union of RAD (http://union-of-rad.org)
+   @license       http://opensource.org/licenses/bsd-license.php The BSD License
+-------------------------------------------------------------------------------------------------*/
+
+/*--- Reset ---*/
+* { margin: 0; padding: 0; }
+html, body { height: 100%; min-height: 100%; }
+
+/*--- Test Dashboard ---*/
 body.test-dashboard {
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 14px;
@@ -126,6 +127,7 @@ body.test-dashboard ul ul li {
 	border-width: 0 0 0 1px;
 }
 
+/*--- Test Dashboard: Menu ---*/
 body.test-dashboard .test-menu {
 	float: left;
 	padding: .75em 0 1em 1%;
@@ -168,7 +170,7 @@ ul.menu a.menu-folder {
 	font-size: 1.2em;
 }
 
-
+/*--- Test Dashboard: Test All ---*/
 a.test-all {
 	display: block;
 	float: left;
@@ -189,6 +191,7 @@ a.test-all:hover {
 	text-shadow: 0px 0px 6px rgba(0,0,0,.5);
 }
 
+/*--- Menu ---*/
 ul.menu a {
 	display: block;
 	padding: 0.1em 0;
@@ -359,6 +362,7 @@ div.test-skip span.content {
 	box-shadow: none;
 	border: none;
 }
+
 /*--- SQL Dumps ---*/
 .lithium-sql-log table {
 	background: #f4f4f4;
