@@ -95,6 +95,18 @@ $checks = array(
 			flag or use a precompiled binary that was compiled without the flag."
 		);
 	},
+	'shortOpenTag' => function() use ($notify, $compiled) {
+		if (!ini_get('short_open_tag')) {
+			return;
+		}
+		return $notify(
+			'notice',
+			'Short open tags are enabled, you may want to disable them.',
+			"It is recommended to not rely on this option being enabled.
+			To increase the portability of your code disable this option by setting
+			<code>short_open_tag = Off</code> in your <code>php.ini</code>."
+		);
+	},
 	'dbSupport' => function() use ($notify, $support) {
 		$paths = array('data.source', 'adapter.data.source.database', 'adapter.data.source.http');
 		$list = array();
