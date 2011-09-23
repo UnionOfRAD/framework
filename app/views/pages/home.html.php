@@ -35,6 +35,12 @@ $support = function($classes) {
 	return $result;
 };
 
+$compiled = function() {
+	ob_start();
+	phpinfo(INFO_GENERAL);
+	return strpos($flag, ob_get_clean()) !== false;
+};
+
 $checks = array(
 	'resourcesWritable' => function() use ($notify) {
 		if (is_writable($path = Libraries::get(true, 'resources'))) {
@@ -95,6 +101,18 @@ $checks = array(
 			'fail',
 			'Register globals is enabled in your PHP configuration.',
 			'Please set <code>register_globals = Off</code> in your <code>php.ini</code> settings.'
+		);
+	},
+	'curlwrappers' => function() use ($notify, $compiled) {
+		if (!$compiled('with-curlwrappers')) {
+			return;
+		}
+		return $notify(
+			'fail',
+			'Curlwrappers are enabled, some things might not work as expected.',
+			"This is an expiremental and usually broken feature of PHP.
+			Please recompile your PHP binary without using the <code>--with-curlwrappers</code>
+			flag or use a precompiled binary that was compiled without the flag."
 		);
 	},
 	'change' => function() use ($notify, $self) {
