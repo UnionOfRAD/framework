@@ -63,26 +63,6 @@ $checks = array(
 			$solution
 		);
 	},
-	'database' => function() use ($notify) {
-		$config = Connections::config();
-
-		if (!empty($config)) {
-			return $notify('success', 'Database connection/s configured.');
-		}
-		return $notify(
-			'notice',
-			'No database connection defined.',
-			"To create a database connection:
-			<ol>
-				<li>Edit the file <code>config/bootstrap.php</code>.</li>
-				<li>
-					Uncomment the line having
-					<code>require __DIR__ . '/bootstrap/connections.php';</code>.
-				</li>
-				<li>Edit the file <code>config/bootstrap/connections.php</code>.</li>
-			</ol>"
-		);
-	},
 	'magicQuotes' => function() use ($notify) {
 		if (get_magic_quotes_gpc() === 0) {
 			return;
@@ -113,6 +93,53 @@ $checks = array(
 			"This is an expiremental and usually broken feature of PHP.
 			Please recompile your PHP binary without using the <code>--with-curlwrappers</code>
 			flag or use a precompiled binary that was compiled without the flag."
+		);
+	},
+	'dbSupport' => function() use ($notify, $support) {
+		$paths = array('data.source', 'adapter.data.source.database', 'adapter.data.source.http');
+		$list = array();
+
+		foreach ($paths as $path) {
+			$list = array_merge($list, Libraries::locate($path, null, array('recursive' => false)));
+		}
+		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
+		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
+
+		return $notify(
+			'notice',
+			'Database support',
+			$support($map)
+		);
+	},
+	'cacheSupport' => function() use ($notify, $support) {
+		$list = Libraries::locate('adapter.storage.cache', null, array('recursive' => false));
+		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
+		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
+
+		return $notify(
+			'notice',
+			'Cache support',
+			$support($map)
+		);
+	},
+	'database' => function() use ($notify) {
+		$config = Connections::config();
+
+		if (!empty($config)) {
+			return $notify('success', 'Database connection/s configured.');
+		}
+		return $notify(
+			'notice',
+			'No database connection defined.',
+			"To create a database connection:
+			<ol>
+				<li>Edit the file <code>config/bootstrap.php</code>.</li>
+				<li>
+					Uncomment the line having
+					<code>require __DIR__ . '/bootstrap/connections.php';</code>.
+				</li>
+				<li>Edit the file <code>config/bootstrap/connections.php</code>.</li>
+			</ol>"
 		);
 	},
 	'change' => function() use ($notify, $self) {
@@ -150,33 +177,6 @@ $checks = array(
 			'Run the tests.',
 			"Check the builtin {$dashboard} or {$tests} now to ensure Lithium
 			is working as expected. Do not hesitate to {$ticket} in case a test fails."
-		);
-	},
-	'dbSupport' => function() use ($notify, $support) {
-		$paths = array('data.source', 'adapter.data.source.database', 'adapter.data.source.http');
-		$list = array();
-
-		foreach ($paths as $path) {
-			$list = array_merge($list, Libraries::locate($path, null, array('recursive' => false)));
-		}
-		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
-		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
-
-		return $notify(
-			'notice',
-			'Database support',
-			$support($map)
-		);
-	},
-	'cacheSupport' => function() use ($notify, $support) {
-		$list = Libraries::locate('adapter.storage.cache', null, array('recursive' => false));
-		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
-		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
-
-		return $notify(
-			'notice',
-			'Cache support',
-			$support($map)
 		);
 	}
 );
