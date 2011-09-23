@@ -183,12 +183,10 @@ $checks = array(
 
 ?>
 
-<h3>Getting Started</h3>
 <?php foreach ($checks as $check): ?>
 	<?php echo $check(); ?>
 <?php endforeach; ?>
 
-<h3>Additional Resources</h3>
 <ul class="additional-resources">
 	<li>
 		<?php echo $this->html->link('Quickstart', 'http://lithify.me/docs/manual/quickstart'); ?>
