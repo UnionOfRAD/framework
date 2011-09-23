@@ -511,21 +511,18 @@ div.code-coverage-results span.content {
 	white-space: pre;
 	line-height: 1.5em;
 	min-height: 1.5em;
-	background: black;
+	color: #111;
 }
 
+div.code-coverage-results div.uncovered span.line-num {
+	border-color: #CC1414;
+}
 div.code-coverage-results div.uncovered span.content {
-	color: #FFD8D8;
-	background-color: #260000;
+	color: #7F0D0D;
 }
-
-div.code-coverage-results div.covered span.content {
-	color: #DDFDCB;
-	background-color: #0C2600;
-}
-
 div.code-coverage-results div.ignored span.content {
-	color: rgba(255,255,255,.5);
+	color: #999;
+	background: #ececec;
 }
 
 div.code-coverage-results span.line-num {
