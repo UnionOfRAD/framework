@@ -12,6 +12,7 @@
  */
 use lithium\storage\Cache;
 use lithium\core\Libraries;
+use lithium\core\Environment;
 use lithium\action\Dispatcher;
 use lithium\storage\cache\adapter\Apc;
 
@@ -45,6 +46,9 @@ Cache::config(compact('default'));
  * Caches paths for auto-loaded and service-located classes.
  */
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
+	if (!Environment::get('production')) {
+		return $chain->next($self, $params, $chain);
+	}
 	$key = md5(LITHIUM_APP_PATH) . '.core.libraries';
 
 	if ($cache = Cache::read('default', $key)) {
