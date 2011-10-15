@@ -58,8 +58,9 @@ body.test-dashboard .article {
 
 body.test-dashboard .test-content {
 	float:left;
-	padding: 0 2% 4em;
-	width: 74%;
+	margin-left:20%;
+	padding: 0 2% 4em 3%;
+	width: 75%;
 }
 
 .test-content h2 {
@@ -127,6 +128,10 @@ body.test-dashboard ul ul li {
 
 /*--- Test Dashboard: Menu ---*/
 body.test-dashboard .test-menu {
+	position:fixed;
+	top:3.7em;
+	bottom:0px;
+	overflow:auto;
 	float: left;
 	padding: .75em 0 1em 1%;
 	width: 20%;
@@ -157,7 +162,8 @@ ul.menu a {
 	display: block;
 }
 
-ul.menu a:hover, ul.menu a:active, ul.menu a.menu-folder:hover {
+ul.menu a:hover, ul.menu a:active, ul.menu a.menu-folder:hover,
+ul.menu #current a, ul.menu #current a.menu-folder {
 	color: black;
 }
 
@@ -170,6 +176,7 @@ ul.menu a.menu-folder {
 
 /*--- Test Dashboard: Test All ---*/
 a.test-all {
+	position:fixed;
 	display: block;
 	float: left;
 	font-size: 1.5em;
@@ -207,7 +214,8 @@ a.menu-folder:before {
 	padding: 0 !important;
 	content: '\25B2' !important;
 }
-ul.menu a:hover:before, a.menu-folder:hover:before, ul.metrics li:hover:before {
+ul.menu a:hover:before, a.menu-folder:hover:before, ul.metrics li:hover:before,
+#current a:before, #current a.menu-folder:before {
 	color: #00A6F5;
 }
 
