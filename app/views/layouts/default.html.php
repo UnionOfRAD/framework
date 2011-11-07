@@ -10,7 +10,7 @@
 <html>
 <head>
 	<?php echo $this->html->charset();?>
-	<title>Application > <?php echo $this->title(); ?></title>
+	<title>Application &gt; <?php echo $this->title(); ?></title>
 	<?php echo $this->html->style(array('debug', 'lithium')); ?>
 	<?php echo $this->scripts(); ?>
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
