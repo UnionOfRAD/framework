@@ -16,10 +16,6 @@ use lithium\core\Environment;
 use lithium\action\Dispatcher;
 use lithium\storage\cache\adapter\Apc;
 
-if (PHP_SAPI === 'cli') {
-	return;
-}
-
 /**
  * If APC is not available and the cache directory is not writeable, bail out. This block should be
  * removed post-install, and the cache should be configured with the adapter you plan to use.
@@ -43,7 +39,7 @@ if ($apcEnabled) {
 Cache::config(compact('default'));
 
 /**
- * Caches paths for auto-loaded and service-located classes.
+ * Caches paths for auto-loaded and service-located classes when in production.
  */
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	if (!Environment::get('production')) {

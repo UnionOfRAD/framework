@@ -42,7 +42,9 @@ require __DIR__ . '/bootstrap/libraries.php';
  * This file contains configurations for connecting to external caching resources, as well as
  * default caching rules for various systems within your application
  */
-require __DIR__ . '/bootstrap/cache.php';
+if (PHP_SAPI !== 'cli') {
+	require __DIR__ . '/bootstrap/cache.php';
+}
 
 /**
  * Include this file if your application uses one or more database connections.
@@ -78,7 +80,8 @@ require __DIR__ . '/bootstrap/action.php';
 /**
  * This file configures console filters and settings, specifically output behavior and coloring.
  */
-// require __DIR__ . '/bootstrap/console.php';
-
+if (PHP_SAPI === 'cli') {
+	require __DIR__ . '/bootstrap/console.php';
+}
 
 ?>
