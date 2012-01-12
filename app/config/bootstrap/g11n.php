@@ -36,7 +36,7 @@ date_default_timezone_set('UTC');
  *
  * The environment settings are:
  *
- *  - `'locale'` The effective locale.
+ *  - `'locale'` The default effective locale.
  *  - `'locales'` Application locales available mapped to names. The available locales are used
  *               to negotiate he effective locale, the names can be used i.e. when displaying
  *               a menu for choosing the locale to users.
