@@ -35,10 +35,10 @@ $support = function($classes) {
 	return $result;
 };
 
-$compiled = function() {
+$compiled = function($flag) {
 	ob_start();
 	phpinfo(INFO_GENERAL);
-	return strpos($flag, ob_get_clean()) !== false;
+	return strpos(ob_get_clean(), $flag) !== false;
 };
 
 $checks = array(
