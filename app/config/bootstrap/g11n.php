@@ -114,14 +114,15 @@ Catalog::config(array(
 /**
  * Multibyte Strings
  *
- * Configuration for the `Multibyte` class which allows to work with UTF-8
- * encoded strings. At least one configuration named `'default'` must be
- * present. Available adapters are `Intl`, `Mbstring` and `Iconv`. Please keep
- * in mind that each adapter may act differently upon input containing bad
- * UTF-8 sequences. These differences aren't currently equalized or abstracted
- * away.
+ * Configuration for the `Multibyte` class allowing to work with UTF-8 encoded
+ * strings. In order to make the class work at least one configuration named
+ * `'default'` must be present. Available adapters are `Intl`, `Mbstring` and
+ * `Iconv`. Please keep in mind that each adapter may act differently upon
+ * input containing bad UTF-8 sequences. These differences aren't currently
+ * equalized or abstracted away.
  *
  * @see lithiumm\g11n\Multibyte
+ * @see lithiumm\util\Validator
  */
 Multibyte::config(array(
 //	'default' => array('adapter' => 'Intl'),
