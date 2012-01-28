@@ -16,6 +16,7 @@ use lithium\core\Environment;
 use lithium\g11n\Locale;
 use lithium\g11n\Catalog;
 use lithium\g11n\Message;
+use lithium\g11n\Multibyte;
 use lithium\util\Inflector;
 use lithium\util\Validator;
 use lithium\net\http\Media;
@@ -77,6 +78,23 @@ Catalog::config(array(
 		'path' => LITHIUM_LIBRARY_PATH . '/lithium/g11n/resources/php'
 	)
 ) + Catalog::config());
+
+/**
+ * Configuration for the `Multibyte` class allowing to work with UTF-8 encoded
+ * strings. In order to make the class work at least one configuration named
+ * `'default'` must be present. Available adapters are `Intl`, `Mbstring` and
+ * `Iconv`. Please keep in mind that each adapter may act differently upon
+ * input containing bad UTF-8 sequences. These differences aren't currently
+ * equalized or abstracted away.
+ *
+ * @see lithiumm\g11n\Multibyte
+ * @see lithiumm\util\Validator
+ */
+Multibyte::config(array(
+//	'default' => array('adapter' => 'Intl'),
+	'default' => array('adapter' => 'Mbstring'),
+//	'default' => array('adapter' => 'Iconv')
+));
 
 /**
  * Integration with `Inflector`.
