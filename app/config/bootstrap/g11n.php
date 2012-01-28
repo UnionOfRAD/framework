@@ -130,12 +130,23 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 });
 
 /**
- * Integration with `Validator`. You can load locale dependent rules into the `Validator`
- * by specifying them manually or retrieving them with the `Catalog` class.
+ * Validation
+ *
+ * Adds locale specific rules through the `Catalog` class. You can load more
+ * locale dependent rules into the by specifying them manually or retrieving
+ * them with the `Catalog` class.
+ *
+ * Enables support for multibyte strings through the `Multibyte` class by
+ * overwriting rules (currently just `lengthBetween`).
  */
 foreach (array('phone', 'postalCode', 'ssn') as $name) {
 	Validator::add($name, Catalog::read(true, "validation.{$name}", 'en_US'));
 }
+Validator::add('lengthBetween', function($value, $format, $options) {
+	$length = Multibyte::strlen($value);
+	$options += array('min' => 1, 'max' => 255);
+	return ($length >= $options['min'] && $length <= $options['max']);
+});
 
 /**
  * Intercepts dispatching processes in order to set the effective locale by using
