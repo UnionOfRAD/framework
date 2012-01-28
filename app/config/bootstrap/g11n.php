@@ -198,4 +198,20 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 	return $chain->next($self, $params, $chain);
 });
 
+/**
+ * Intercepts dispatching processes in order to set the effective locale by using
+ * the locale of the request or if that is not available retrieving a locale preferred
+ * by the client.
+ */
+$setLocale = function($self, $params, $chain) {
+	if (!$params['request']->locale()) {
+		$params['request']->locale(Locale::preferred($params['request']));
+	}
+	Environment::set(true, array('locale' => $params['request']->locale()));
+
+	return $chain->next($self, $params, $chain);
+};
+ActionDispatcher::applyFilter('_callable', $setLocale);
+ConsoleDispatcher::applyFilter('_callable', $setLocale);
+
 ?>
