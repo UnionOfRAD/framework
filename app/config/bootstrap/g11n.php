@@ -114,15 +114,14 @@ Catalog::config(array(
 /**
  * Multibyte Strings
  *
- * Configuration for the `Multibyte` class allowing to work with UTF-8 encoded
- * strings. In order to make the class work at least one configuration named
- * `'default'` must be present. Available adapters are `Intl`, `Mbstring` and
- * `Iconv`. Please keep in mind that each adapter may act differently upon
- * input containing bad UTF-8 sequences. These differences aren't currently
- * equalized or abstracted away.
+ * Configuration for the `Multibyte` class which allows to work with UTF-8
+ * encoded strings. At least one configuration named `'default'` must be
+ * present. Available adapters are `Intl`, `Mbstring` and `Iconv`. Please keep
+ * in mind that each adapter may act differently upon input containing bad
+ * UTF-8 sequences. These differences aren't currently equalized or abstracted
+ * away.
  *
  * @see lithiumm\g11n\Multibyte
- * @see lithiumm\util\Validator
  */
 Multibyte::config(array(
 //	'default' => array('adapter' => 'Intl'),
@@ -197,21 +196,5 @@ Media::applyFilter('_handle', function($self, $params, $chain) {
 	$params['handler']['outputFilters'] += Message::aliases();
 	return $chain->next($self, $params, $chain);
 });
-
-/**
- * Intercepts dispatching processes in order to set the effective locale by using
- * the locale of the request or if that is not available retrieving a locale preferred
- * by the client.
- */
-$setLocale = function($self, $params, $chain) {
-	if (!$params['request']->locale()) {
-		$params['request']->locale(Locale::preferred($params['request']));
-	}
-	Environment::set(true, array('locale' => $params['request']->locale()));
-
-	return $chain->next($self, $params, $chain);
-};
-ActionDispatcher::applyFilter('_callable', $setLocale);
-ConsoleDispatcher::applyFilter('_callable', $setLocale);
 
 ?>
