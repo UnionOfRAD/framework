@@ -7,6 +7,7 @@
  */
 
 use lithium\core\Libraries;
+use lithium\core\Environment;
 use lithium\data\Connections;
 
 $this->title('Home');
@@ -44,7 +45,7 @@ $compiled = function($flag) {
 $checks = array(
 	'resourcesWritable' => function() use ($notify) {
 		if (is_writable($path = Libraries::get(true, 'resources'))) {
-			return $notify('success', 'Resources directory is writable.');
+			return $notify('success', 'Resources directory is writable');
 		}
 		$path = str_replace(dirname(LITHIUM_APP_PATH) . '/', null, $path);
 		$solution = null;
@@ -59,7 +60,7 @@ $checks = array(
 		}
 		return $notify(
 			'fail',
-			'Your resource path is not writeable.',
+			'Your resource path is not writeable',
 			$solution
 		);
 	},
@@ -69,7 +70,7 @@ $checks = array(
 		}
 		return $notify(
 			'fail',
-			'Magic quotes are enabled in your PHP configuration.',
+			'Magic quotes are enabled in your PHP configuration',
 			'Please set <code>magic_quotes_gpc = Off</code> in your <code>php.ini</code> settings.'
 		);
 	},
@@ -79,7 +80,7 @@ $checks = array(
 		}
 		return $notify(
 			'fail',
-			'Register globals is enabled in your PHP configuration.',
+			'Register globals is enabled in your PHP configuration',
 			'Please set <code>register_globals = Off</code> in your <code>php.ini</code> settings.'
 		);
 	},
@@ -117,32 +118,22 @@ $checks = array(
 		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
 		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
 
-		return $notify(
-			'notice',
-			'Database support',
-			$support($map)
-		);
+		return $notify('notice', 'Database support', $support($map));
 	},
 	'cacheSupport' => function() use ($notify, $support) {
 		$list = Libraries::locate('adapter.storage.cache', null, array('recursive' => false));
 		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
 		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
 
-		return $notify(
-			'notice',
-			'Cache support',
-			$support($map)
-		);
+		return $notify('notice', 'Cache support', $support($map));
 	},
 	'database' => function() use ($notify) {
-		$config = Connections::config();
-
-		if (!empty($config)) {
-			return $notify('success', 'Database connection/s configured.');
+		if ($config = Connections::config()) {
+			return $notify('success', 'Database connection(s) configured');
 		}
 		return $notify(
 			'notice',
-			'No database connection defined.',
+			'No database connection defined',
 			"To create a database connection:
 			<ol>
 				<li>Edit the file <code>config/bootstrap.php</code>.</li>
@@ -159,7 +150,7 @@ $checks = array(
 
 		return $notify(
 			'notice',
-			"You're using the application's default home page.",
+			"You're using the application's default home page",
 			"To change this {$template}, edit the file
 			<code>views/pages/home.html.php</code>.
 			To change the layout,
@@ -172,21 +163,48 @@ $checks = array(
 
 		return $notify(
 			'notice',
-			'Use custom routing.',
-			"To change the {$routing} edit the file <code>config/routes.php</code>."
+			'Use custom routing',
+			"Routes allow you to map custom URLs to your application code. To change the
+			{$routing}, edit the file <code>config/routes.php</code>."
 		);
 	},
 	'tests' => function() use ($notify, $self) {
+		if (Environment::is('production')) {
+			$docsLink = $self->html->link(
+				'the documentation',
+				'http://lithify.me/docs/lithium/core/Environment::is()'
+			);
+
+			return $notify(
+				'fail',
+				"Can't run tests",
+				"<p>Lithium's default environment detection rules have determined that you are
+				running in production mode. Therefore, you will not be able to run tests from the
+				web interface. You can do any of the following to remedy this:</p>
+				<ul>
+					<li>Run this application locally</li>
+					<li>Run tests from the console, using the <code>li3 test</code> command</li>
+					<li>
+						Implementing custom environment detection rules;
+						see {$docsLink} for examples
+					</li>
+				</ul>"
+			);
+		}
 		$tests = $self->html->link('run all tests', array(
 			'controller' => 'lithium\test\Controller',
 			'args' => 'all'
 		));
-		$dashboard = $self->html->link('test dashboard', array('controller' => 'lithium\test\Controller'));
-		$ticket = $self->html->link('file a ticket', 'https://github.com/UnionOfRAD/lithium/issues');
+		$dashboard = $self->html->link('test dashboard', array(
+			'controller' => 'lithium\test\Controller'
+		));
+		$ticket = $self->html->link(
+			'file a ticket', 'https://github.com/UnionOfRAD/lithium/issues'
+		);
 
 		return $notify(
 			'notice',
-			'Run the tests.',
+			'Run the tests',
 			"Check the builtin {$dashboard} or {$tests} now to ensure Lithium
 			is working as expected. Do not hesitate to {$ticket} in case a test fails."
 		);
@@ -201,14 +219,23 @@ $checks = array(
 
 <ul class="additional-resources">
 	<li>
-		<?php echo $this->html->link('Quickstart', 'http://lithify.me/docs/manual/quickstart'); ?>
-		is a guide for PHP users who are looking to get a good idea of what Lithium can do.
-		The guide is part of the official Lithium manual,
-		<?php echo $this->html->link('The Definitive Guide', 'http://lithify.me/docs/manual'); ?>.
+		<div class="test-result test-result-notice">Getting started</div>
+		<div class="test-result solution">
+			<?php echo $this->html->link(
+				'Quickstart', 'http://lithify.me/docs/manual/quickstart'
+			); ?> is a guide for PHP users who are looking to get a good idea of what Lithium can
+			do. The guide is part of the official Lithium manual, <?php echo $this->html->link(
+				'The Definitive Guide', 'http://lithify.me/docs/manual'
+			); ?>.
+		</div>
 	</li>
 	<li>
-		The <?php echo $this->html->link('API documentation', 'http://lithify.me/docs/lithium'); ?>
-		has all the implementation details you've been looking for.
+		<div class="test-result test-result-notice">Learn more</div>
+		<div class="test-result solution">
+			The
+			<?php echo $this->html->link('API documentation', 'http://lithify.me/docs/lithium'); ?>
+			has all the implementation details you've been looking for.
+		</div>
 	</li>
 	<li>
 		Chat with other Lithium users and the team developing Lithium.
