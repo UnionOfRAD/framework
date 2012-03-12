@@ -18,7 +18,6 @@
  */
 
 use lithium\core\Libraries;
-use lithium\net\http\Router;
 use lithium\core\Environment;
 use lithium\action\Dispatcher;
 
