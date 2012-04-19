@@ -483,6 +483,7 @@ div.code-coverage-results, h4.code-coverage-name {
 }
 
 h4.coverage {
+	clear: both;
 	color: #454545;
 	font-weight: normal;
 	margin-bottom: .5em;
