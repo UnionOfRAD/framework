@@ -65,7 +65,7 @@ $checks = array(
 		);
 	},
 	'magicQuotes' => function() use ($notify) {
-		if (get_magic_quotes_gpc() === 0) {
+		if (get_magic_quotes_gpc() == 0) {
 			return;
 		}
 		return $notify(
