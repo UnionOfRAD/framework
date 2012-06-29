@@ -26,8 +26,16 @@ namespace app\controllers;
 class PagesController extends \lithium\action\Controller {
 
 	public function view() {
-		$path = func_get_args() ?: array('home');
-		return $this->render(array('template' => join('/', $path)));
+		$options = array();
+		$path = func_get_args();
+
+		if (!$path || (count($path === 1) && $path[0] === 'home')) {
+			$path = array('home');
+			$options['compiler'] = array('fallback' => true);
+		}
+
+		$options['template'] = join('/', $path);
+		return $this->render($options);
 	}
 }
 
