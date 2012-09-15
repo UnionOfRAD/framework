@@ -22,7 +22,7 @@ use lithium\storage\cache\adapter\Apc;
  */
 $cachePath = Libraries::get(true, 'resources') . '/tmp/cache';
 
-if (!($apcEnabled = Apc::enabled()) && !is_writable($cachePath)) {
+if (!(($apcEnabled = Apc::enabled()) || PHP_SAPI === 'cli') && !is_writable($cachePath)) {
 	return;
 }
 
@@ -31,18 +31,15 @@ if (!($apcEnabled = Apc::enabled()) && !is_writable($cachePath)) {
  * not, file caching will be used. Most of this code is for getting you up and running only, and
  * should be replaced with a hard-coded configuration, based on the cache(s) you plan to use.
  */
-$default = array('adapter' => 'File', 'strategies' => array('Serializer'));
-
-if ($apcEnabled) {
-	$default = array('adapter' => 'Apc');
-}
-Cache::config(compact('default'));
+Cache::config(array('default' => $apcEnabled ? array('adapter' => 'Apc') : array(
+	'adapter' => 'File', 'strategies' => array('Serializer')
+)));
 
 /**
  * Caches paths for auto-loaded and service-located classes when in production.
  */
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
-	if (!Environment::get('production')) {
+	if (!Environment::is('production')) {
 		return $chain->next($self, $params, $chain);
 	}
 	$key = md5(LITHIUM_APP_PATH) . '.core.libraries';
