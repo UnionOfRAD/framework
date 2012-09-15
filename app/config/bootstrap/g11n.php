@@ -7,15 +7,15 @@
  */
 
 /**
- * This bootstrap file contains class configuration for all aspects of globalizing your application,
- * including localization of text, validation rules, setting timezones and character inflections,
- * and identifying a user's locale.
+ * This bootstrap file contains configurations for all globalizing
+ * aspects of your application.
  */
 use lithium\core\Libraries;
 use lithium\core\Environment;
 use lithium\g11n\Locale;
 use lithium\g11n\Catalog;
 use lithium\g11n\Message;
+use lithium\g11n\Multibyte;
 use lithium\util\Inflector;
 use lithium\util\Validator;
 use lithium\net\http\Media;
@@ -23,16 +23,19 @@ use lithium\action\Dispatcher as ActionDispatcher;
 use lithium\console\Dispatcher as ConsoleDispatcher;
 
 /**
+ * Dates
+ *
  * Sets the default timezone used by all date/time functions.
  */
 date_default_timezone_set('UTC');
 
 /**
- * Adds globalization specific settings to the environment.
+ * Locales
  *
- * The settings for the current locale, time zone and currency are kept as environment
- * settings. This allows for _centrally_ switching, _transparently_ setting and retrieving
- * globalization related settings.
+ * Adds globalization specific settings to the environment. The settings for
+ * the current locale, time zone and currency are kept as environment settings.
+ * This allows for _centrally_ switching, _transparently_ setting and
+ * retrieving globalization related settings.
  *
  * The environment settings are:
  *
@@ -40,6 +43,9 @@ date_default_timezone_set('UTC');
  *  - `'locales'` Application locales available mapped to names. The available locales are used
  *               to negotiate he effective locale, the names can be used i.e. when displaying
  *               a menu for choosing the locale to users.
+ *
+ * @see lithiumm\g11n\Message
+ * @see lithiumm\core\Environment
  */
 $locale = 'en';
 $locales = array('en' => 'English');
@@ -49,6 +55,29 @@ Environment::set('development', compact('locale', 'locales'));
 Environment::set('test', array('locale' => 'en', 'locales' => array('en' => 'English')));
 
 /**
+ * Effective/Request Locale
+ *
+ * Intercepts dispatching processes in order to set the effective locale by using
+ * the locale of the request or if that is not available retrieving a locale preferred
+ * by the client.
+ *
+ * @see lithiumm\g11n\Message
+ * @see lithiumm\core\Environment
+ */
+$setLocale = function($self, $params, $chain) {
+	if (!$params['request']->locale()) {
+		$params['request']->locale(Locale::preferred($params['request']));
+	}
+	Environment::set(true, array('locale' => $params['request']->locale()));
+
+	return $chain->next($self, $params, $chain);
+};
+ActionDispatcher::applyFilter('_callable', $setLocale);
+ConsoleDispatcher::applyFilter('_callable', $setLocale);
+
+/**
+ * Resources
+ *
  * Globalization (g11n) catalog configuration.  The catalog allows for obtaining and
  * writing globalized data. Each configuration can be adjusted through the following settings:
  *
@@ -63,6 +92,10 @@ Environment::set('test', array('locale' => 'en', 'locales' => array('en' => 'Eng
  *   - `'scope'` If you plan on using scoping i.e. for accessing plugin data separately you
  *     need to specify a scope for each configuration, except for those using the `Memory`,
  *     `Php` or `Gettext` adapter which handle this internally.
+ *
+ * @see lithiumm\g11n\Catalog
+ * @link https://github.com/UnionOfRAD/li3_lldr
+ * @link https://github.com/UnionOfRAD/li3_cldr
  */
 Catalog::config(array(
 	'runtime' => array(
@@ -79,60 +112,89 @@ Catalog::config(array(
 ) + Catalog::config());
 
 /**
- * Integration with `Inflector`.
+ * Multibyte Strings
+ *
+ * Configuration for the `Multibyte` class which allows to work with UTF-8
+ * encoded strings. At least one configuration named `'default'` must be
+ * present. Available adapters are `Intl`, `Mbstring` and `Iconv`. Please keep
+ * in mind that each adapter may act differently upon input containing bad
+ * UTF-8 sequences. These differences aren't currently equalized or abstracted
+ * away.
+ *
+ * @see lithiumm\g11n\Multibyte
  */
-// Inflector::rules('transliteration', Catalog::read(true, 'inflection.transliteration', 'en'));
+Multibyte::config(array(
+//	'default' => array('adapter' => 'Intl'),
+	'default' => array('adapter' => 'Mbstring'),
+//	'default' => array('adapter' => 'Iconv')
+));
 
 /**
- * Inflector configuration examples.  If your application has custom singular or plural rules, or
- * extra non-ASCII characters to transliterate, you can configure that by uncommenting the lines
- * below.
+ * Transliteration
+ *
+ * Load locale specific transliteration rules through the `Catalog` class or
+ * specify them manually to make `Inflector::slug()` work better with
+ * characters specific to a locale.
+ *
+ * @see lithiumm\g11n\Catalog
+ * @see lithium\util\Inflector::slug()
+ */
+// Inflector::rules('transliteration', Catalog::read(true, 'inflection.transliteration', 'en'));
+// Inflector::rules('transliteration', array('/É|Ê/' => 'E'));
+
+/**
+ * Grammar
+ *
+ * If your application has custom singular or plural rules you can configure
+ * that by uncommenting the lines below.
+ *
+ * @see lithiumm\g11n\Catalog
+ * @see lithium\util\Inflector
  */
 // Inflector::rules('singular', array('rules' => array('/rata/' => '\1ratus')));
 // Inflector::rules('singular', array('irregular' => array('foo' => 'bar')));
-//
 // Inflector::rules('plural', array('rules' => array('/rata/' => '\1ratum')));
 // Inflector::rules('plural', array('irregular' => array('bar' => 'foo')));
-//
-// Inflector::rules('transliteration', array('/É|Ê/' => 'E'));
-//
 // Inflector::rules('uninflected', 'bord');
 // Inflector::rules('uninflected', array('bord', 'baird'));
 
+/**
+ * Validation
+ *
+ * Adds locale specific rules through the `Catalog` class. You can load more
+ * locale dependent rules into the by specifying them manually or retrieving
+ * them with the `Catalog` class.
+ *
+ * Enables support for multibyte strings through the `Multibyte` class by
+ * overwriting rules (currently just `lengthBetween`).
+ *
+ * @see lithiumm\g11n\Catalog
+ * @see lithiumm\g11n\Multibyte
+ * @see lithium\util\Validator
+ */
+foreach (array('phone', 'postalCode', 'ssn') as $name) {
+	Validator::add($name, Catalog::read(true, "validation.{$name}", 'en_US'));
+}
+Validator::add('lengthBetween', function($value, $format, $options) {
+	$length = Multibyte::strlen($value);
+	$options += array('min' => 1, 'max' => 255);
+	return ($length >= $options['min'] && $length <= $options['max']);
+});
 
 /**
+ * In-View Translation
+ *
  * Integration with `View`. Embeds message translation aliases into the `View`
  * class (or other content handler, if specified) when content is rendered. This
  * enables translation functions, i.e. `<?=$t("Translated content"); ?>`.
+ *
+ * @see lithiumm\g11n\Message::aliases()
+ * @see lithiumm\net\http\Media
  */
 Media::applyFilter('_handle', function($self, $params, $chain) {
 	$params['handler'] += array('outputFilters' => array());
 	$params['handler']['outputFilters'] += Message::aliases();
 	return $chain->next($self, $params, $chain);
 });
-
-/**
- * Integration with `Validator`. You can load locale dependent rules into the `Validator`
- * by specifying them manually or retrieving them with the `Catalog` class.
- */
-foreach (array('phone', 'postalCode', 'ssn') as $name) {
-	Validator::add($name, Catalog::read(true, "validation.{$name}", 'en_US'));
-}
-
-/**
- * Intercepts dispatching processes in order to set the effective locale by using
- * the locale of the request or if that is not available retrieving a locale preferred
- * by the client.
- */
-$setLocale = function($self, $params, $chain) {
-	if (!$params['request']->locale()) {
-		$params['request']->locale(Locale::preferred($params['request']));
-	}
-	Environment::set(true, array('locale' => $params['request']->locale()));
-
-	return $chain->next($self, $params, $chain);
-};
-ActionDispatcher::applyFilter('_callable', $setLocale);
-ConsoleDispatcher::applyFilter('_callable', $setLocale);
 
 ?>
