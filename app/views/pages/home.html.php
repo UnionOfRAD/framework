@@ -11,24 +11,29 @@ use lithium\core\Environment;
 use lithium\data\Connections;
 
 $this->title('Home');
+$this->html->style('debug', array('inline' => false));
 
 $self = $this;
 
 $notify = function($status, $message, $solution = null) {
-	$html  = "<div class=\"test-result test-result-{$status}\">{$message}</div>";
-	$html .= "<div class=\"test-result solution\">{$solution}</div>";
+	$html  = "<h4 class=\"alert alert-{$status}\">{$message}</h4>";
+	$html .= "<p>{$solution}</p>";
 	return $html;
 };
 
-$support = function($classes) {
-	$result = '<ul class="indicated">';
+$support = function($heading, $data) {
+	$result = "<h3>{$heading}</h3>";
 
-	foreach ($classes as $class => $enabled) {
+	if (is_string($data)) {
+		return $result . $data;
+	}
+	$result .= '<ul class="lithium-indicator">';
+
+	foreach ($data as $class => $enabled) {
 		$name = substr($class, strrpos($class, '\\') + 1);
 		$url = 'http://lithify.me/docs/' . str_replace('\\', '/', $class);
 		$class = $enabled ? 'enabled' : 'disabled';
 		$title = $enabled ? "Adapter `{$name}` is enabled." : "Adapter `{$name}` is disabled.";
-
 		$result .= "<li><a href=\"{$url}\" title=\"{$title}\" class=\"{$class}\">{$name}</a></li>";
 	}
 	$result .= '</ul>';
@@ -47,12 +52,16 @@ $checks = array(
 		if (is_writable($path = Libraries::get(true, 'resources'))) {
 			return $notify('success', 'Resources directory is writable');
 		}
-		$path = str_replace(dirname(LITHIUM_APP_PATH) . '/', null, $path);
+		$app = basename(LITHIUM_APP_PATH);
+		$path = str_replace(LITHIUM_APP_PATH . '/', null, $path);
 		$solution = null;
 
 		if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
 			$solution  = 'To fix this, run the following from the command line: ';
-			$solution .= "<code>$ chmod -R 0777 {$path}</code>.";
+			$solution .= "<pre><code>";
+			$solution .= !empty($app) ? "$ cd {$app}\n" : null;
+			$solution .= "$ chmod -R 0777 {$path}";
+			$solution .= "</code></pre>";
 		} else {
 			$path = realpath($path);
 			$solution  = 'To fix this, give <code>modify</code> rights to the user ';
@@ -69,7 +78,7 @@ $checks = array(
 			return;
 		}
 		return $notify(
-			'fail',
+			'error',
 			'Magic quotes are enabled in your PHP configuration',
 			'Please set <code>magic_quotes_gpc = Off</code> in your <code>php.ini</code> settings.'
 		);
@@ -79,7 +88,7 @@ $checks = array(
 			return;
 		}
 		return $notify(
-			'fail',
+			'error',
 			'Register globals is enabled in your PHP configuration',
 			'Please set <code>register_globals = Off</code> in your <code>php.ini</code> settings.'
 		);
@@ -89,7 +98,7 @@ $checks = array(
 			return;
 		}
 		return $notify(
-			'fail',
+			'error',
 			'Curlwrappers are enabled, some things might not work as expected.',
 			"This is an expiremental and usually broken feature of PHP.
 			Please recompile your PHP binary without using the <code>--with-curlwrappers</code>
@@ -101,38 +110,19 @@ $checks = array(
 			return;
 		}
 		return $notify(
-			'notice',
+			'warning',
 			'Short open tags are enabled, you may want to disable them.',
 			"It is recommended to not rely on this option being enabled.
 			To increase the portability of your code disable this option by setting
 			<code>short_open_tag = Off</code> in your <code>php.ini</code>."
 		);
 	},
-	'dbSupport' => function() use ($notify, $support) {
-		$paths = array('data.source', 'adapter.data.source.database', 'adapter.data.source.http');
-		$list = array();
-
-		foreach ($paths as $path) {
-			$list = array_merge($list, Libraries::locate($path, null, array('recursive' => false)));
-		}
-		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
-		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
-
-		return $notify('notice', 'Database support', $support($map));
-	},
-	'cacheSupport' => function() use ($notify, $support) {
-		$list = Libraries::locate('adapter.storage.cache', null, array('recursive' => false));
-		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
-		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
-
-		return $notify('notice', 'Cache support', $support($map));
-	},
 	'database' => function() use ($notify) {
 		if ($config = Connections::config()) {
 			return $notify('success', 'Database connection(s) configured');
 		}
 		return $notify(
-			'notice',
+			'warning',
 			'No database connection defined',
 			"To create a database connection:
 			<ol>
@@ -149,7 +139,7 @@ $checks = array(
 		$template = $self->html->link('template', 'http://lithify.me/docs/lithium/template');
 
 		return $notify(
-			'notice',
+			'warning',
 			"You're using the application's default home page",
 			"To change this {$template}, edit the file
 			<code>views/pages/home.html.php</code>.
@@ -158,17 +148,35 @@ $checks = array(
 			edit the file <code>views/layouts/default.html.php</code>."
 		);
 	},
-	'routing' => function() use ($notify, $self) {
+	'dbSupport' => function() use ($support) {
+		$paths = array('data.source', 'adapter.data.source.database', 'adapter.data.source.http');
+		$list = array();
+
+		foreach ($paths as $path) {
+			$list = array_merge($list, Libraries::locate($path, null, array('recursive' => false)));
+		}
+		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
+		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
+
+		return $support('Database support', $map);
+	},
+	'cacheSupport' => function() use ($support) {
+		$list = Libraries::locate('adapter.storage.cache', null, array('recursive' => false));
+		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
+		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
+
+		return $support('Cache support', $map);
+	},
+	'routing' => function() use ($support, $self) {
 		$routing = $self->html->link('routing', 'http://lithify.me/docs/lithium/net/http/Router');
 
-		return $notify(
-			'notice',
-			'Use custom routing',
+		return $support(
+			'Custom routing',
 			"Routes allow you to map custom URLs to your application code. To change the
 			{$routing}, edit the file <code>config/routes.php</code>."
 		);
 	},
-	'tests' => function() use ($notify, $self) {
+	'tests' => function() use ($notify, $support, $self) {
 		if (Environment::is('production')) {
 			$docsLink = $self->html->link(
 				'the documentation',
@@ -176,7 +184,7 @@ $checks = array(
 			);
 
 			return $notify(
-				'fail',
+				'error',
 				"Can't run tests",
 				"<p>Lithium's default environment detection rules have determined that you are
 				running in production mode. Therefore, you will not be able to run tests from the
@@ -202,56 +210,61 @@ $checks = array(
 			'file a ticket', 'https://github.com/UnionOfRAD/lithium/issues'
 		);
 
-		return $notify(
-			'notice',
+		return $support(
 			'Run the tests',
-			"Check the builtin {$dashboard} or {$tests} now to ensure Lithium
-			is working as expected. Do not hesitate to {$ticket} in case a test fails."
+			"Check the {$dashboard} or {$tests} now to ensure Lithium is working as expected."
 		);
 	}
 );
 
 ?>
+<div class="jumbotron">
+	<h1><?=ucwords(basename(LITHIUM_APP_PATH))?></h1>
+	<h2>
+		Powered by <a href="http://lithify.me/">Lithium</a>.
+	</h2>
+</div>
 
+<hr>
+
+<h3>Current Setup</h3>
 <?php foreach ($checks as $check): ?>
 	<?php echo $check(); ?>
 <?php endforeach; ?>
 
-<ul class="additional-resources">
-	<li>
-		<div class="test-result test-result-notice">Getting started</div>
-		<div class="test-result solution">
-			<?php echo $this->html->link(
-				'Quickstart', 'http://lithify.me/docs/manual/quickstart'
-			); ?> is a guide for PHP users who are looking to get a good idea of what Lithium can
-			do. The guide is part of the official Lithium manual, <?php echo $this->html->link(
-				'The Definitive Guide', 'http://lithify.me/docs/manual'
-			); ?>.
-		</div>
-	</li>
-	<li>
-		<div class="test-result test-result-notice">Learn more</div>
-		<div class="test-result solution">
-			The
-			<?php echo $this->html->link('API documentation', 'http://lithify.me/docs/lithium'); ?>
-			has all the implementation details you've been looking for.
-		</div>
-	</li>
-	<li>
-		Chat with other Lithium users and the team developing Lithium.
-		For <em>general support</em> hop on the
-		<?php echo $this->html->link('#li3 channel', 'irc://irc.freenode.net/#li3'); ?>
-		or read the
-		<?php echo $this->html->link('logs', 'http://lithify.me/bot/logs/li3'); ?>.
-		For <em>core discussions</em> join us in the
-		<?php echo $this->html->link('#li3-core channel', 'irc://irc.freenode.net/#li3-core'); ?>
-		or read the
-		<?php echo $this->html->link('logs', 'http://lithify.me/bot/logs/li3-core'); ?>.
-	</li>
-	<li>
-		Browse the Lithium
-		<?php echo $this->html->link('Repository', 'https://github.com/UnionOfRAD/lithium'); ?>
-		or read the
-		<?php echo $this->html->link('Wiki', 'https://github.com/UnionOfRAD/lithium/wiki'); ?>.
-	</li>
-</ul>
+<h3>Quickstart</h3>
+<p>
+	<?php echo $this->html->link(
+		'Quickstart', 'http://lithify.me/docs/manual/quickstart'
+	); ?> is a guide for PHP users who are looking to start building a simple application.
+</p>
+
+<h3>Learn more</h3>
+<p>
+	Read the
+	<?php echo $this->html->link('Manual', 'http://lithify.me/docs/lithium'); ?>
+	for detailed explanations and tutorials. The
+	<?php echo $this->html->link('API documentation', 'http://lithify.me/docs/lithium'); ?>
+	has all the implementation details you've been looking for.
+</p>
+
+<h3>Community</h3>
+<p>
+	Chat with other Lithium users and the team developing Lithium.
+</p>
+<p>
+	For <strong>general support</strong> hop on the
+	<?php echo $this->html->link('#li3 channel', 'irc://irc.freenode.net/#li3'); ?>
+	or read the
+	<?php echo $this->html->link('logs', 'http://lithify.me/bot/logs/li3'); ?>.
+</p>
+<p>
+	For <strong>core discussions</strong> join us in the
+	<?php echo $this->html->link('#li3-core channel', 'irc://irc.freenode.net/#li3-core'); ?>
+	or read the
+	<?php echo $this->html->link('logs', 'http://lithify.me/bot/logs/li3-core'); ?>.
+</p>
+<p>
+	Browse the Lithium
+	<?php echo $this->html->link('Source', 'https://github.com/UnionOfRAD/lithium'); ?>
+</p>

@@ -11,21 +11,44 @@
 <head>
 	<?php echo $this->html->charset();?>
 	<title>Application &gt; <?php echo $this->title(); ?></title>
-	<?php echo $this->html->style(array('debug', 'lithium')); ?>
+	<?php echo $this->html->style(array('bootstrap.min', 'lithified')); ?>
 	<?php echo $this->scripts(); ?>
+	<?php echo $this->styles(); ?>
 	<?php echo $this->html->link('Icon', null, array('type' => 'icon')); ?>
 </head>
-<body class="app">
-	<div id="container">
-		<div id="header">
-			<h1>Application</h1>
-			<h2>
-				Powered by <?php echo $this->html->link('Lithium', 'http://lithify.me/'); ?>.
-			</h2>
+<body class="lithified">
+	<div class="container-narrow">
+
+		<div class="masthead">
+			<ul class="nav nav-pills pull-right">
+				<li>
+					<a href="http://lithify.me/docs/manual/quickstart">Quickstart</a>
+				</li>
+				<li>
+					<a href="http://lithify.me/docs/manual">Manual</a>
+				</li>
+				<li>
+					<a href="http://lithify.me/docs/lithium">API</a>
+				</li>
+				<li>
+					<a href="http://lithify.me/">More</a>
+				</li>
+			</ul>
+			<a href="http://lithify.me/"><h3>&#10177;</h3></a>
 		</div>
-		<div id="content">
+
+		<hr>
+
+		<div class="content">
 			<?php echo $this->content(); ?>
 		</div>
+
+		<hr>
+
+		<div class="footer">
+			<p>&copy; Union Of RAD 2013</p>
+		</div>
+
 	</div>
 </body>
 </html>

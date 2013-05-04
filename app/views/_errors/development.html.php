@@ -37,15 +37,17 @@ array_unshift($stack, array(
 	<?=get_class($exception);?>
 
 	<?php if ($code = $exception->getCode()): ?>
-		<span class="code">(code <?=$code; ?>)</span>
+		<span class="lithium-exception-code">(code <?=$code; ?>)</span>
 	<?php endif ?>
 </div>
 
-<div class="lithium-exception-message"><?=$exception->getMessage(); ?></div>
+<div class="lithium-exception-message">
+	<pre><code><?=$exception->getMessage(); ?></code></pre>
+</div>
 
 <h3 id="source">Source</h3>
 
-<div id="sourceCode"></div>
+<div id="code"></div>
 
 <h3>Stack Trace</h3>
 
@@ -61,7 +63,7 @@ array_unshift($stack, array(
 				<tt><a href="#source" id="<?=$id; ?>" class="display-source-excerpt">
 					<?=$frame['functionRef']; ?>
 				</a></tt>
-				<div id="sourceCode<?=$id; ?>" style="display: none;">
+				<div id="code-<?=$id; ?>" style="display: none;">
 
 					<div class="lithium-exception-location">
 						<?=$location; ?>
@@ -99,10 +101,10 @@ array_unshift($stack, array(
 		for (i = 0; i < links.length; i++) {
 			if (links[i].className.indexOf('display-source-excerpt') >= 0) {
 				links[i].onclick = function() {
-					$('sourceCode').innerHTML = $('sourceCode' + this.id).innerHTML;
+					$('code').innerHTML = $('code-' + this.id).innerHTML;
 				}
 			}
 		}
-		$('sourceCode').innerHTML = $('sourceCode0').innerHTML;
+		$('code').innerHTML = $('code-0').innerHTML;
 	}
 </script>
