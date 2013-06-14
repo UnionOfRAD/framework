@@ -39,7 +39,8 @@ Collection::formats('lithium\net\http\Media');
 // use lithium\net\http\Media;
 //
 // Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
-// 	list($library, $asset) = explode('/', $params['request']->url, 2) + array("", "");
+// 	$url = ltrim($params['request']->url, '/');
+// 	list($library, $asset) = explode('/', $url, 2) + array("", "");
 //
 // 	if ($asset && ($path = Media::webroot($library)) && file_exists($file = "{$path}/{$asset}")) {
 // 		return function() use ($file) {
