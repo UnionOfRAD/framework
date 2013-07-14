@@ -1,0 +1,10 @@
+{
+    "name": "unionofrad/framework",
+    "description": "The Lithium Framework.",
+    "keywords": ["framework", "lithium"],
+    "require": {
+        "composer/installers": "1.0.*@dev",
+        "unionofrad/lithium": "dev-master"
+    },
+    "minimum-stability": "dev"
+}
