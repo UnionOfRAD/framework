@@ -44,8 +44,8 @@ date_default_timezone_set('UTC');
  *               to negotiate he effective locale, the names can be used i.e. when displaying
  *               a menu for choosing the locale to users.
  *
- * @see lithiumm\g11n\Message
- * @see lithiumm\core\Environment
+ * @see lithium\g11n\Message
+ * @see lithium\core\Environment
  */
 $locale = 'en';
 $locales = array('en' => 'English');
@@ -61,8 +61,8 @@ Environment::set('test', array('locale' => 'en', 'locales' => array('en' => 'Eng
  * the locale of the request or if that is not available retrieving a locale preferred
  * by the client.
  *
- * @see lithiumm\g11n\Message
- * @see lithiumm\core\Environment
+ * @see lithium\g11n\Message
+ * @see lithium\core\Environment
  */
 $setLocale = function($self, $params, $chain) {
 	if (!$params['request']->locale()) {
@@ -93,7 +93,7 @@ ConsoleDispatcher::applyFilter('_callable', $setLocale);
  *     need to specify a scope for each configuration, except for those using the `Memory`,
  *     `Php` or `Gettext` adapter which handle this internally.
  *
- * @see lithiumm\g11n\Catalog
+ * @see lithium\g11n\Catalog
  * @link https://github.com/UnionOfRAD/li3_lldr
  * @link https://github.com/UnionOfRAD/li3_cldr
  */
@@ -121,7 +121,7 @@ Catalog::config(array(
  * UTF-8 sequences. These differences aren't currently equalized or abstracted
  * away.
  *
- * @see lithiumm\g11n\Multibyte
+ * @see lithium\g11n\Multibyte
  */
 Multibyte::config(array(
 //	'default' => array('adapter' => 'Intl'),
@@ -136,7 +136,7 @@ Multibyte::config(array(
  * specify them manually to make `Inflector::slug()` work better with
  * characters specific to a locale.
  *
- * @see lithiumm\g11n\Catalog
+ * @see lithium\g11n\Catalog
  * @see lithium\util\Inflector::slug()
  */
 // Inflector::rules('transliteration', Catalog::read(true, 'inflection.transliteration', 'en'));
@@ -148,7 +148,7 @@ Multibyte::config(array(
  * If your application has custom singular or plural rules you can configure
  * that by uncommenting the lines below.
  *
- * @see lithiumm\g11n\Catalog
+ * @see lithium\g11n\Catalog
  * @see lithium\util\Inflector
  */
 // Inflector::rules('singular', array('rules' => array('/rata/' => '\1ratus')));
@@ -168,8 +168,8 @@ Multibyte::config(array(
  * Enables support for multibyte strings through the `Multibyte` class by
  * overwriting rules (currently just `lengthBetween`).
  *
- * @see lithiumm\g11n\Catalog
- * @see lithiumm\g11n\Multibyte
+ * @see lithium\g11n\Catalog
+ * @see lithium\g11n\Multibyte
  * @see lithium\util\Validator
  */
 foreach (array('phone', 'postalCode', 'ssn') as $name) {
@@ -188,8 +188,8 @@ Validator::add('lengthBetween', function($value, $format, $options) {
  * class (or other content handler, if specified) when content is rendered. This
  * enables translation functions, i.e. `<?=$t("Translated content"); ?>`.
  *
- * @see lithiumm\g11n\Message::aliases()
- * @see lithiumm\net\http\Media
+ * @see lithium\g11n\Message::aliases()
+ * @see lithium\net\http\Media
  */
 Media::applyFilter('_handle', function($self, $params, $chain) {
 	$params['handler'] += array('outputFilters' => array());
