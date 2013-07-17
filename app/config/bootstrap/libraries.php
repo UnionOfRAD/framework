@@ -81,8 +81,8 @@ define('LITHIUM_COMPOSER_PATH', dirname(LITHIUM_APP_PATH) . '/vendor');
  *
  * @return string
  */
-$lp = function() {
-	if (is_dir(LITHIUM_LIBRARY_PATH . '/lithium')) {
+$lithiumPath = function() {
+	if (file_exists(LITHIUM_LIBRARY_PATH . '/lithium/core/Libraries.php')) {
 		return LITHIUM_LIBRARY_PATH;
 	}
 	return LITHIUM_COMPOSER_PATH . '/unionofrad/lithium';
@@ -93,7 +93,7 @@ $lp = function() {
  * This should be used instead of earlier `LITHIUM_LIBRARY_PATH` when you want to point to copy of
  * `lithium` framework.
  */
-define('LITHIUM_FRAMEWORK_PATH', $lp());
+define('LITHIUM_FRAMEWORK_PATH', $lithiumPath());
 
 /**
  * Locate and load Lithium core library files.  Throws a fatal error if the core can't be found.

@@ -3,8 +3,11 @@
     "description": "The Lithium Framework.",
     "keywords": ["framework", "lithium"],
     "require": {
-        "composer/installers": "1.0.*@dev",
+        "composer/installers": "dev-master",
         "unionofrad/lithium": "dev-master"
+    },
+    "config": {
+        "preferred-install": "dist"
     },
     "minimum-stability": "dev"
 }
