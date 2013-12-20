@@ -83,6 +83,17 @@ $checks = array(
 			'Please set <code>magic_quotes_gpc = Off</code> in your <code>php.ini</code> settings.'
 		);
 	},
+	'mbstringFuncOverload' => function() use ($notify) {
+		if (!ini_get('mbstring.func_overload')) {
+			return;
+		}
+		return $notify(
+			'error',
+			'Multibyte String function overlading is enabled in your PHP configuration',
+			'Please set <code>mbstring.func_overload = 0</code>
+			in your <code>php.ini</code> settings.'
+		);
+	},
 	'registerGlobals' => function() use ($notify) {
 		if (!ini_get('register_globals')) {
 			return;
