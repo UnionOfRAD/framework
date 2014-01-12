@@ -85,6 +85,7 @@ require LITHIUM_LIBRARY_PATH . '/lithium/util/Collection.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/util/collection/Filters.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/util/Inflector.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/util/String.php';
+require LITHIUM_LIBRARY_PATH . '/lithium/util/Set.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/core/Adaptable.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/core/Environment.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/net/Message.php';
@@ -98,12 +99,7 @@ require LITHIUM_LIBRARY_PATH . '/lithium/action/Controller.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/action/Dispatcher.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/action/Request.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/action/Response.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/View.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/view/Renderer.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/view/Compiler.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/view/adapter/File.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/storage/Cache.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/storage/cache/adapter/Apc.php';
 
 /**
  * Add the Lithium core library.  This sets default paths and initializes the autoloader.  You
