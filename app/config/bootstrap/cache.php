@@ -7,10 +7,12 @@
  */
 
 use lithium\storage\Cache;
+use lithium\storage\cache\adapter\Apc;
 use lithium\core\Libraries;
 use lithium\core\Environment;
 use lithium\action\Dispatcher;
-use lithium\storage\cache\adapter\Apc;
+use lithium\data\Connections;
+use lithium\data\source\Database;
 
 /**
  * Configuration
@@ -49,7 +51,9 @@ Cache::config(array(
  * Applies caching to neuralgic points of the framework but only when we are running
  * in production. This is also a good central place to add your own caching rules.
  *
- * Here we cache paths for auto-loaded and service-located classes.
+ * A couple of caching rules are already defined below:
+ *  1. Cache paths for auto-loaded and service-located classes.
+ *  2. Cache describe calls on all connections that use a `Database` based adapter.
  *
  * @see lithium\core\Environment
  * @see lithium\core\Libraries
@@ -57,6 +61,7 @@ Cache::config(array(
 if (!Environment::is('production')) {
 	return;
 }
+
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	$cacheKey = 'core.libraries';
 
@@ -70,6 +75,27 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 		Cache::write('default', $cacheKey, $data, '+1 day');
 	}
 	return $result;
+});
+
+Dispatcher::applyFilter('run', function($self, $params, $chain) {
+	foreach (Connections::get() as $name) {
+		if (!(($connection = Connections::get($name)) instanceof Database)) {
+			continue;
+		}
+		$connection->applyFilter('describe', function($self, $params, $chain) use ($name) {
+			if ($params['fields']) {
+				return $chain->next($self, $params, $chain);
+			}
+			$cacheKey = "data.connections.{$name}.sources.{$params['entity']}.schema";
+
+			return Cache::read('default', $cacheKey, array(
+				'write' => function() use ($self, $params, $chain) {
+					return array('+1 day' => $chain->next($self, $params, $chain));
+				}
+			));
+		});
+	}
+	return $chain->next($self, $params, $chain);
 });
 
 ?>
