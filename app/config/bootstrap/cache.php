@@ -39,7 +39,7 @@ Cache::config(array(
 	'default' => array(
 		'adapter' => $apc ? 'Apc' : 'File',
 		'strategies' => $apc ? array() : array('Serializer'),
-		'scope' => $apc ? null : md5(LITHIUM_APP_PATH)
+		'scope' => $apc ? md5(LITHIUM_APP_PATH) : null
 	)
 ));
 
