@@ -34,7 +34,8 @@ if (!(($apc = Apc::enabled()) || PHP_SAPI === 'cli') && !is_writable($cachePath)
 Cache::config(array(
 	'default' => array(
 		'adapter' => $apc ? 'Apc' : 'File',
-		'strategies' => $apc ? array() : array('Serializer')
+		'strategies' => $apc ? array() : array('Serializer'),
+		'scope' => $apc ? null : md5(LITHIUM_APP_PATH)
 	)
 ));
 
@@ -52,13 +53,8 @@ Cache::config(array(
 if (!Environment::is('production')) {
 	return;
 }
-$cacheScope = md5(LITHIUM_APP_PATH);
-
-/**
- * Caches paths for auto-loaded and service-located classes when in production.
- */
-Dispatcher::applyFilter('run', function($self, $params, $chain) use ($cacheScope) {
-	$cacheKey = "{$cacheScope}.core.libraries";
+Dispatcher::applyFilter('run', function($self, $params, $chain) {
+	$cacheKey = 'core.libraries';
 
 	if ($cached = Cache::read('default', $cacheKey)) {
 		$cached = (array) $cached + Libraries::cache();
