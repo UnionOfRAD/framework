@@ -15,6 +15,10 @@ use lithium\storage\cache\adapter\Apc;
 /**
  * Configuration
  *
+ * Configures the adapters to use with the cache class. Available adapters are `Memcache`,
+ * `File`, `Redis`, `Apc`, `XCache` and `Memory`. Please see the documentation on the
+ * adapters for specific characteristics and requirements.
+ *
  * Most of this code is for getting you up and running only, and should be replaced with
  * a hard-coded configuration, based on the cache(s) you plan to use.
  *
