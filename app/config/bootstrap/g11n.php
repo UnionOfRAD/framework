@@ -192,13 +192,15 @@ Multibyte::config(array(
  * @see lithium\util\Validator
  */
 foreach (array('phone', 'postalCode', 'ssn') as $name) {
-	Validator::add($name, function($value, $format, $options) use ($name) {
-		if ($format === 'any') {
-			return Validator::is($name, $value, $format);
+	$regex = Validator::rules($name);
+
+	Validator::add($name, function($value, $format, $options) use ($name, $regex) {
+		if ($format !== 'any') {
+			$regex = Catalog::read(true, "validation.{$name}", $format);
 		}
-		if (!$regex = Catalog::read(true, "validation.{$name}", $format)) {
+		if (!$regex) {
 			$message  = "Cannot find regular expression for validation rule `{$name}` ";
-			$message .= "using locale `{$format}`.";
+			$message .= "using format/locale `{$format}`.";
 			throw new RuntimeException($message);
 		}
 		return preg_match($regex, $value);
