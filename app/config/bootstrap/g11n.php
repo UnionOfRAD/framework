@@ -21,6 +21,7 @@ use lithium\util\Validator;
 use lithium\net\http\Media;
 use lithium\action\Dispatcher as ActionDispatcher;
 use lithium\console\Dispatcher as ConsoleDispatcher;
+use RuntimeException;
 
 /**
  * Dates
@@ -161,19 +162,47 @@ Multibyte::config(array(
 /**
  * Validation
  *
- * Adds locale specific rules through the `Catalog` class. You can load more
- * locale dependent rules into the by specifying them manually or retrieving
- * them with the `Catalog` class.
+ * Overwrites certain validation rules in order to make them locale aware. Locale
+ * specific versions are added as formats to those rules. In order to validate a
+ * german postal code you may use the following configuration in a model.
  *
- * Enables support for multibyte strings through the `Multibyte` class by
+ * {{{
+ * // ...
+ *	public $validates = array(
+ *		'zip' => array(
+ *			array('postalCode', 'format' => 'de_DE')
+ *		)
+ *		// ...
+ * }}}
+ *
+ * When no format or the special `any` format is provided the rule will use the
+ * built-in regular expression. This ensures that default behavior isn't affected.
+ *
+ * The regular expression for a locale aware rule is retrieved using the `Catalog`
+ * class. To add support for more locales and rules have a look at the `li3_lldr`
+ * and `li3_cldr` projects.
+ *
+ * Further enables support for multibyte strings through the `Multibyte` class by
  * overwriting rules (currently just `lengthBetween`).
  *
+ * @link https://github.com/UnionOfRAD/li3_lldr
+ * @link https://github.com/UnionOfRAD/li3_cldr
  * @see lithium\g11n\Catalog
  * @see lithium\g11n\Multibyte
  * @see lithium\util\Validator
  */
 foreach (array('phone', 'postalCode', 'ssn') as $name) {
-	Validator::add($name, Catalog::read(true, "validation.{$name}", 'en_US'));
+	Validator::add($name, function($value, $format, $options) use ($name) {
+		if ($format === 'any') {
+			return Validator::is($name, $value, $format);
+		}
+		if (!$regex = Catalog::read(true, "validation.{$name}", $format)) {
+			$message  = "Cannot find regular expression for validation rule `{$name}` ";
+			$message .= "using locale `{$format}`.";
+			throw new RuntimeException($message);
+		}
+		return preg_match($regex, $value);
+	});
 }
 Validator::add('lengthBetween', function($value, $format, $options) {
 	$length = Multibyte::strlen($value);
