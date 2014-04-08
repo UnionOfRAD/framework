@@ -2,7 +2,7 @@
 /**
  * Lithium: the most rad php framework
  *
- * @copyright     Copyright 2013, Union of RAD (http://union-of-rad.org)
+ * @copyright     Copyright 2014, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
@@ -31,7 +31,7 @@ $support = function($heading, $data) {
 
 	foreach ($data as $class => $enabled) {
 		$name = substr($class, strrpos($class, '\\') + 1);
-		$url = 'http://lithify.me/docs/' . str_replace('\\', '/', $class);
+		$url = 'http://li3.me/docs/' . str_replace('\\', '/', $class);
 		$class = $enabled ? 'enabled' : 'disabled';
 		$title = $enabled ? "Adapter `{$name}` is enabled." : "Adapter `{$name}` is disabled.";
 		$result .= "<li><a href=\"{$url}\" title=\"{$title}\" class=\"{$class}\">{$name}</a></li>";
@@ -147,7 +147,7 @@ $checks = array(
 		);
 	},
 	'change' => function() use ($notify, $self) {
-		$template = $self->html->link('template', 'http://lithify.me/docs/lithium/template');
+		$template = $self->html->link('template', 'http://li3.me/docs/lithium/template');
 
 		return $notify(
 			'warning',
@@ -179,7 +179,7 @@ $checks = array(
 		return $support('Cache support', $map);
 	},
 	'routing' => function() use ($support, $self) {
-		$routing = $self->html->link('routing', 'http://lithify.me/docs/lithium/net/http/Router');
+		$routing = $self->html->link('routing', 'http://li3.me/docs/lithium/net/http/Router');
 
 		return $support(
 			'Custom routing',
@@ -191,7 +191,7 @@ $checks = array(
 		if (Environment::is('production')) {
 			$docsLink = $self->html->link(
 				'the documentation',
-				'http://lithify.me/docs/lithium/core/Environment::is()'
+				'http://li3.me/docs/lithium/core/Environment::is()'
 			);
 
 			return $notify(
@@ -232,7 +232,7 @@ $checks = array(
 <div class="jumbotron">
 	<h1><?=ucwords(basename(LITHIUM_APP_PATH))?></h1>
 	<h2>
-		Powered by <a href="http://lithify.me/">Lithium</a>.
+		Powered by <a href="http://li3.me/">Lithium</a>.
 	</h2>
 </div>
 
@@ -246,16 +246,16 @@ $checks = array(
 <h3>Quickstart</h3>
 <p>
 	<?php echo $this->html->link(
-		'Quickstart', 'http://lithify.me/docs/manual/quickstart'
+		'Quickstart', 'http://li3.me/docs/manual/quickstart'
 	); ?> is a guide for PHP users who are looking to start building a simple application.
 </p>
 
 <h3>Learn more</h3>
 <p>
 	Read the
-	<?php echo $this->html->link('Manual', 'http://lithify.me/docs/lithium'); ?>
+	<?php echo $this->html->link('Manual', 'http://li3.me/docs/lithium'); ?>
 	for detailed explanations and tutorials. The
-	<?php echo $this->html->link('API documentation', 'http://lithify.me/docs/lithium'); ?>
+	<?php echo $this->html->link('API documentation', 'http://li3.me/docs/lithium'); ?>
 	has all the implementation details you've been looking for.
 </p>
 
@@ -267,13 +267,13 @@ $checks = array(
 	For <strong>general support</strong> hop on the
 	<?php echo $this->html->link('#li3 channel', 'irc://irc.freenode.net/#li3'); ?>
 	or read the
-	<?php echo $this->html->link('logs', 'http://lithify.me/bot/logs/li3'); ?>.
+	<?php echo $this->html->link('logs', 'http://li3.me/bot/logs/li3'); ?>.
 </p>
 <p>
 	For <strong>core discussions</strong> join us in the
 	<?php echo $this->html->link('#li3-core channel', 'irc://irc.freenode.net/#li3-core'); ?>
 	or read the
-	<?php echo $this->html->link('logs', 'http://lithify.me/bot/logs/li3-core'); ?>.
+	<?php echo $this->html->link('logs', 'http://li3.me/bot/logs/li3-core'); ?>.
 </p>
 <p>
 	Browse the Lithium

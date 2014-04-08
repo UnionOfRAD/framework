@@ -2,7 +2,7 @@
 /**
  * Lithium: the most rad php framework
  *
- * @copyright     Copyright 2013, Union of RAD (http://union-of-rad.org)
+ * @copyright     Copyright 2014, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
@@ -29,19 +29,19 @@ $path = Libraries::get(true, 'path');
 		<div class="masthead">
 			<ul class="nav nav-pills pull-right">
 				<li>
-					<a href="http://lithify.me/docs/manual/quickstart">Quickstart</a>
+					<a href="http://li3.me/docs/manual/quickstart">Quickstart</a>
 				</li>
 				<li>
-					<a href="http://lithify.me/docs/manual">Manual</a>
+					<a href="http://li3.me/docs/manual">Manual</a>
 				</li>
 				<li>
-					<a href="http://lithify.me/docs/lithium">API</a>
+					<a href="http://li3.me/docs/lithium">API</a>
 				</li>
 				<li>
-					<a href="http://lithify.me/">More</a>
+					<a href="http://li3.me/">More</a>
 				</li>
 			</ul>
-			<a href="http://lithify.me/"><h3>&#10177;</h3></a>
+			<a href="http://li3.me/"><h3>&#10177;</h3></a>
 		</div>
 
 		<hr>
