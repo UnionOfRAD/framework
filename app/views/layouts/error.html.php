@@ -66,7 +66,7 @@ $path = Libraries::get(true, 'path');
 		<hr>
 
 		<div class="footer">
-			<p>&copy; Union Of RAD 2013</p>
+			<p>&copy; Union Of RAD <?php echo date('Y') ?></p>
 		</div>
 	</div>
 </body>
