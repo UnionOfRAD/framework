@@ -100,6 +100,7 @@ require LITHIUM_LIBRARY_PATH . '/lithium/action/Dispatcher.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/action/Request.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/action/Response.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/storage/Cache.php';
+require LITHIUM_LIBRARY_PATH . '/lithium/storage/cache/Adapter.php';
 
 /**
  * Add the Lithium core library.  This sets default paths and initializes the autoloader.  You
