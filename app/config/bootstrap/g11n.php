@@ -127,7 +127,7 @@ Multibyte::config(array(
 //	'default' => array('adapter' => 'Intl'),
 	'default' => array('adapter' => 'Mbstring'),
 //	'default' => array('adapter' => 'Iconv')
-));
+) + Multibyte::config());
 
 /**
  * Transliteration
