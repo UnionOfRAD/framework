@@ -232,7 +232,7 @@ $checks = array(
 <div class="jumbotron">
 	<h1><?=ucwords(basename(LITHIUM_APP_PATH))?></h1>
 	<h2>
-		Powered by <a href="http://li3.me/">Lithium</a>.
+		Powered by <a href="http://li3.me/">li₃</a>.
 	</h2>
 </div>
 
