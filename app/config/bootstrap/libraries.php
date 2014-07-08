@@ -62,10 +62,44 @@ define('LITHIUM_APP_PATH', dirname(dirname(__DIR__)));
 define('LITHIUM_LIBRARY_PATH', dirname(LITHIUM_APP_PATH) . '/libraries');
 
 /**
+ * Path to composer's vendor dir, so we can easily define paths to libraries that will be loaded
+ * from vendor directory.
+ * Example:
+ * {{{
+ * Libraries::add('swiftmailer', array(
+ *     'path' => LITHIUM_COMPOSER_PATH . '/swiftmailer/swiftmailer)
+ * );
+ * }}}
+ */
+define('LITHIUM_COMPOSER_PATH', dirname(LITHIUM_APP_PATH) . '/vendor');
+
+/**
+ * Helper function to create path to copy of lithium framework.
+ * This function looks for `lithium` in `LITHIUM_LIBRARY_PATH`, and use this (default in earlier
+ * versions) path if find copy of `lithium`.
+ * Otherwise returns path to `lithium` framework installed trough composer.
+ *
+ * @return string
+ */
+$lithiumPath = function() {
+	if (file_exists(LITHIUM_LIBRARY_PATH . '/lithium/core/Libraries.php')) {
+		return LITHIUM_LIBRARY_PATH;
+	}
+	return LITHIUM_COMPOSER_PATH . '/unionofrad/lithium';
+};
+
+/**
+ * This is path to to location where we store `lithium` framework.
+ * This should be used instead of earlier `LITHIUM_LIBRARY_PATH` when you want to point to copy of
+ * `lithium` framework.
+ */
+define('LITHIUM_FRAMEWORK_PATH', $lithiumPath());
+
+/**
  * Locate and load Lithium core library files.  Throws a fatal error if the core can't be found.
  * If your Lithium core directory is named something other than `lithium`, change the string below.
  */
-if (!include LITHIUM_LIBRARY_PATH . '/lithium/core/Libraries.php') {
+if (!include LITHIUM_FRAMEWORK_PATH . '/lithium/core/Libraries.php') {
 	$message  = "Lithium core could not be found.  Check the value of LITHIUM_LIBRARY_PATH in ";
 	$message .= __FILE__ . ".  It should point to the directory containing your ";
 	$message .= "/libraries directory.";
@@ -79,31 +113,31 @@ use lithium\core\Libraries;
  * request/response or dispatch classes, you can safely remove these.  Actually, you can safely
  * remove them anyway, they're just there to give slightly you better out-of-the-box performance.
  */
-require LITHIUM_LIBRARY_PATH . '/lithium/core/Object.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/core/StaticObject.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/util/Collection.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/util/collection/Filters.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/util/Inflector.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/util/String.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/core/Adaptable.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/core/Environment.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/net/Message.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/net/http/Message.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/net/http/Media.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/net/http/Request.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/net/http/Response.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/net/http/Route.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/net/http/Router.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/action/Controller.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/action/Dispatcher.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/action/Request.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/action/Response.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/View.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/view/Renderer.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/view/Compiler.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/view/adapter/File.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/storage/Cache.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/storage/cache/adapter/Apc.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/core/Object.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/core/StaticObject.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/util/Collection.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/util/collection/Filters.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/util/Inflector.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/util/String.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/core/Adaptable.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/core/Environment.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/net/Message.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/net/http/Message.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/net/http/Media.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/net/http/Request.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/net/http/Response.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/net/http/Route.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/net/http/Router.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/action/Controller.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/action/Dispatcher.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/action/Request.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/action/Response.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/template/View.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/template/view/Renderer.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/template/view/Compiler.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/template/view/adapter/File.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/storage/Cache.php';
+require LITHIUM_FRAMEWORK_PATH . '/lithium/storage/cache/adapter/Apc.php';
 
 /**
  * Add the Lithium core library.  This sets default paths and initializes the autoloader.  You

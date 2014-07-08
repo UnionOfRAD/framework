@@ -107,7 +107,7 @@ Catalog::config(array(
 	// ),
 	'lithium' => array(
 		'adapter' => 'Php',
-		'path' => LITHIUM_LIBRARY_PATH . '/lithium/g11n/resources/php'
+		'path' => LITHIUM_FRAMEWORK_PATH . '/lithium/g11n/resources/php'
 	)
 ) + Catalog::config());
 
