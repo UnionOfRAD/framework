@@ -1,0 +1,18 @@
+{
+	"require": {
+		"unionofrad/lithium": "dev-master"
+	},
+	"config": {
+		"vendor-dir": "libraries"
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"mv libraries/unionofrad/lithium libraries/lithium",
+			"composer dump-autoload"
+		],
+		"post-update-cmd": [
+			"mv libraries/unionofrad/lithium libraries/lithium",
+			"composer dump-autoload"
+		]
+	}
+}
