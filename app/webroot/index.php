@@ -11,7 +11,7 @@
  * responsible for intercepting requests, and handing them off to the `Dispatcher` for processing.
  *
  * @see lithium\action\Dispatcher
-*/
+ */
 
 /**
  * If you're sharing a single Lithium core install or other libraries among multiple
