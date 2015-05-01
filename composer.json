@@ -15,7 +15,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=5.3.6",
-        "unionofrad/lithium": "dev-dev"
+        "php": ">=5.5.0",
+        "unionofrad/lithium": "1.1.*"
     }
 }
