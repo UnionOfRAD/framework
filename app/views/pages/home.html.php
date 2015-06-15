@@ -73,6 +73,17 @@ $checks = array(
 			$solution
 		);
 	},
+	'errorReporting' => function() use ($notify) {
+		if (error_reporting() & E_STRICT) {
+			return;
+		}
+		return $notify(
+			'warning',
+			'Reporting of strict errors is disabled',
+			'Spotting strict errors early during development helps making your code better. ' .
+			'Please set <code>error_reporting = E_ALL</code> in your <code>php.ini</code> settings.'
+		);
+	},
 	'magicQuotes' => function() use ($notify) {
 		if (!get_magic_quotes_gpc()) {
 			return;
