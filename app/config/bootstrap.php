@@ -20,7 +20,7 @@
  * If you have other services that must be configured globally for the entire application, create a
  * new bootstrap file and `require` it here.
  *
- * @see lithium\util\collection\Filters
+ * @see lithium\aop\Filters
  */
 
 /**
