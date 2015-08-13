@@ -2,7 +2,7 @@
 /**
  * Lithium: the most rad php framework
  *
- * @copyright     Copyright 2013, Union of RAD (http://union-of-rad.org)
+ * @copyright     Copyright 2015, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
@@ -81,6 +81,17 @@ $checks = array(
 			'error',
 			'Magic quotes are enabled in your PHP configuration',
 			'Please set <code>magic_quotes_gpc = Off</code> in your <code>php.ini</code> settings.'
+		);
+	},
+	'mbstringFuncOverload' => function() use ($notify) {
+		if (!ini_get('mbstring.func_overload')) {
+			return;
+		}
+		return $notify(
+			'error',
+			'Multibyte String function overlading is enabled in your PHP configuration',
+			'Please set <code>mbstring.func_overload = 0</code>
+			in your <code>php.ini</code> settings.'
 		);
 	},
 	'registerGlobals' => function() use ($notify) {
@@ -221,7 +232,7 @@ $checks = array(
 <div class="jumbotron">
 	<h1><?=ucwords(basename(LITHIUM_APP_PATH))?></h1>
 	<h2>
-		Powered by <a href="http://li3.me/">Lithium</a>.
+		Powered by <a href="http://li3.me/">li₃</a>.
 	</h2>
 </div>
 

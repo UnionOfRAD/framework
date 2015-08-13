@@ -2,7 +2,7 @@
 /**
  * Lithium: the most rad php framework
  *
- * @copyright     Copyright 2013, Union of RAD (http://union-of-rad.org)
+ * @copyright     Copyright 2015, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
@@ -11,7 +11,7 @@
  * responsible for intercepting requests, and handing them off to the `Dispatcher` for processing.
  *
  * @see lithium\action\Dispatcher
-*/
+ */
 
 /**
  * If you're sharing a single Lithium core install or other libraries among multiple

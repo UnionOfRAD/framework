@@ -2,7 +2,7 @@
 /**
  * Lithium: the most rad php framework
  *
- * @copyright     Copyright 2013, Union of RAD (http://union-of-rad.org)
+ * @copyright     Copyright 2015, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
@@ -66,7 +66,7 @@ $path = Libraries::get(true, 'path');
 		<hr>
 
 		<div class="footer">
-			<p>&copy; Union Of RAD 2013</p>
+			<p>&copy; Union Of RAD <?php echo date('Y') ?></p>
 		</div>
 	</div>
 </body>

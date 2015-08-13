@@ -2,7 +2,7 @@
 /**
  * Lithium: the most rad php framework
  *
- * @copyright     Copyright 2013, Union of RAD (http://union-of-rad.org)
+ * @copyright     Copyright 2015, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
@@ -20,6 +20,8 @@ use lithium\net\http\Router;
 use lithium\core\Environment;
 
 /**
+ * ### Continuation routes
+ *
  * With globalization enabled a localized route is configured by connecting a
  * continuation route. Once the route has been connected, all the other
  * application routes become localized and may now carry a locale.
@@ -33,6 +35,8 @@ if ($locales = Environment::get('locales')) {
 }
 
 /**
+ * ### Basic page routes
+ *
  * Here, we are connecting `'/'` (the base path) to controller called `'Pages'`,
  * its action called `view()`, and we pass a param to select the view file
  * to use (in this case, `/views/pages/home.html.php`; see `app\controllers\PagesController`
@@ -49,6 +53,8 @@ Router::connect('/', 'Pages::view');
 Router::connect('/pages/{:args}', 'Pages::view');
 
 /**
+ * ### Testing routes
+ *
  * Add the testing routes. These routes are only connected in non-production environments, and allow
  * browser-based access to the test suite for running unit and integration tests for the Lithium
  * core, as well as your own application and any other loaded plugins or frameworks. Browse to
@@ -81,6 +87,8 @@ if (!Environment::is('production')) {
 // Router::connect('/{:controller}/{:action}/{:id:[0-9a-f]{24}}');
 
 /**
+ * ### Default controller/action routes
+ *
  * Finally, connect the default route. This route acts as a catch-all, intercepting requests in the
  * following forms:
  *

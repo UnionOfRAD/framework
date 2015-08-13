@@ -2,7 +2,7 @@
 /**
  * Lithium: the most rad php framework
  *
- * @copyright     Copyright 2013, Union of RAD (http://union-of-rad.org)
+ * @copyright     Copyright 2015, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
@@ -85,6 +85,7 @@ require LITHIUM_LIBRARY_PATH . '/lithium/util/Collection.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/util/collection/Filters.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/util/Inflector.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/util/String.php';
+require LITHIUM_LIBRARY_PATH . '/lithium/util/Set.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/core/Adaptable.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/core/Environment.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/net/Message.php';
@@ -98,12 +99,8 @@ require LITHIUM_LIBRARY_PATH . '/lithium/action/Controller.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/action/Dispatcher.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/action/Request.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/action/Response.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/View.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/view/Renderer.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/view/Compiler.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/template/view/adapter/File.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/storage/Cache.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/storage/cache/adapter/Apc.php';
+require LITHIUM_LIBRARY_PATH . '/lithium/storage/cache/Adapter.php';
 
 /**
  * Add the Lithium core library.  This sets default paths and initializes the autoloader.  You
@@ -118,8 +115,14 @@ Libraries::add('lithium');
 Libraries::add('app', array('default' => true));
 
 /**
- * Add some plugins:
+ * Add lithium plugins. You may manually add plugins or use the library discovery mechanism
+ * by uncommenting the code below. This will automatically register any libraries prefixed
+ * with `li3_` in the libraries directories and enable autoloading of them.
  */
-// Libraries::add('li3_docs');
+// $pattern = '{' . LITHIUM_LIBRARY_PATH . ',' . LITHIUM_APP_PATH . '/libraries}/li3_*';
+//
+// foreach (glob($pattern, GLOB_BRACE | GLOB_ONYLDIR) as $path) {
+// 	Libraries::add(basename($path), array('path' => $path));
+// }
 
 ?>
