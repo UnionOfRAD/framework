@@ -116,13 +116,13 @@ Libraries::add('app', array('default' => true));
 
 /**
  * Add lithium plugins. You may manually add plugins or use the library discovery mechanism
- * which is enabled by default below. This will automatically register any libraries prefixed
+ * by uncommenting the code below. This will automatically register any libraries prefixed
  * with `li3_` in the libraries directories and enable autoloading of them.
  */
-$pattern = '{' . LITHIUM_LIBRARY_PATH . ',' . LITHIUM_APP_PATH . '/libraries}/li3_*';
-
-foreach (glob($pattern, GLOB_BRACE | GLOB_ONLYDIR) as $path) {
-	Libraries::add(basename($path), array('path' => $path));
-}
+// $pattern = '{' . LITHIUM_LIBRARY_PATH . ',' . LITHIUM_APP_PATH . '/libraries}/li3_*';
+//
+// foreach (glob($pattern, GLOB_BRACE | GLOB_ONYLDIR) as $path) {
+// 	Libraries::add(basename($path), array('path' => $path));
+// }
 
 ?>
