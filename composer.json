@@ -1,7 +1,7 @@
 {
     "name": "unionofrad/framework",
     "description": "The li₃ standard distribution, including overarching directory layout, starting application, and a copy of the framework.",
-    "keywords": ["lithium", "li3"],
+    "keywords": ["lithium", "li3", "distro"],
     "homepage": "http://li3.me",
     "license": "BSD-3-Clause",
     "type": "project",
@@ -12,10 +12,9 @@
     "config": {
         "vendor-dir": "libraries"
     },
-    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": ">=5.3.6",
-        "unionofrad/lithium": "dev-master"
+        "unionofrad/lithium": "1.0.0@RC"
     }
 }
