@@ -82,7 +82,7 @@ Filters::apply('lithium\action\Dispatcher', 'run', function($params, $next) {
 		if (!(($connection = Connections::get($name)) instanceof Database)) {
 			continue;
 		}
-		Filters::apply($connection, 'describe', function($params, $chain) use ($name) {
+		Filters::apply($connection, 'describe', function($params, $next) use ($name) {
 			if ($params['fields']) {
 				return $next($params);
 			}
