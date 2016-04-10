@@ -121,7 +121,7 @@ Libraries::add('app', array('default' => true));
  */
 // $pattern = '{' . LITHIUM_LIBRARY_PATH . ',' . LITHIUM_APP_PATH . '/libraries}/li3_*';
 //
-// foreach (glob($pattern, GLOB_BRACE | GLOB_ONYLDIR) as $path) {
+// foreach (glob($pattern, GLOB_BRACE | GLOB_ONLYDIR) as $path) {
 // 	Libraries::add(basename($path), array('path' => $path));
 // }
 
