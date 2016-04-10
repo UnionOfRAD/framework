@@ -10,6 +10,7 @@
  * This bootstrap file contains configurations for all globalizing
  * aspects of your application.
  */
+use lithium\aop\Filters;
 use lithium\core\Libraries;
 use lithium\core\Environment;
 use lithium\g11n\Locale;
@@ -19,8 +20,7 @@ use lithium\g11n\Multibyte;
 use lithium\util\Inflector;
 use lithium\util\Validator;
 use lithium\net\http\Media;
-use lithium\action\Dispatcher as ActionDispatcher;
-use lithium\console\Dispatcher as ConsoleDispatcher;
+
 use RuntimeException;
 
 /**
@@ -73,8 +73,9 @@ $setLocale = function($self, $params, $chain) {
 
 	return $chain->next($self, $params, $chain);
 };
-ActionDispatcher::applyFilter('_callable', $setLocale);
-ConsoleDispatcher::applyFilter('_callable', $setLocale);
+
+Filters::apply('lithium\action\Dispatcher', '_callable', $setLocale);
+Filters::apply('lithium\console\Dispatcher', '_callable', $setLocale);
 
 /**
  * Resources
@@ -126,7 +127,7 @@ Catalog::config(array(
  */
 Multibyte::config(array(
 //	'default' => array('adapter' => 'Intl'),
-	'default' => array('adapter' => 'Mbstring'),
+		'default' => array('adapter' => 'Mbstring'),
 //	'default' => array('adapter' => 'Iconv')
 ) + Multibyte::config());
 
@@ -222,10 +223,10 @@ Validator::add('lengthBetween', function($value, $format, $options) {
  * @see lithium\g11n\Message::aliases()
  * @see lithium\net\http\Media
  */
-Media::applyFilter('_handle', function($self, $params, $chain) {
+Filters::apply('lithium\net\http\Media', '_handle', function($params, $next) {
 	$params['handler'] += array('outputFilters' => array());
 	$params['handler']['outputFilters'] += Message::aliases();
-	return $chain->next($self, $params, $chain);
+	return $next($params);
 });
 
 ?>
