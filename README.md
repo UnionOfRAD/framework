@@ -1,12 +1,12 @@
-# li₃ application system
+# li₃ standard distribution
 
-## Synopsis
-
-The li₃ application system includes the overarching directory layout, an example starting application, and a copy of the [lithium framework](https://github.com/UnionOfRAD/lithium).
+The li₃ standard distribution is an application system that includes the
+overarching directory layout, an example starting application, and a copy of the
+[li₃ framework](https://github.com/UnionOfRAD/lithium).
 
 ## Installation
 
-The [Installation](http://li3.me/docs/manual/installation) document within the manual describes 
-how to perform the installation in detail. You should then follow [The Quintessential Blog Tutorial](http://li3.me/docs/manual/quickstart) which shows how to further kickstart your first project.
-
-
+To install the distribution follow the steps outlined in
+[Installation](http://li3.me/docs/manual/installation). For a quickstart read
+[The Quintessential Blog Tutorial](http://li3.me/docs/manual/quickstart) to
+create your first project.
