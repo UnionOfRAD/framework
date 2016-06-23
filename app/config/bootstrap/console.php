@@ -36,9 +36,9 @@ Filters::apply('lithium\console\Dispatcher', 'run', function($params, $next) {
  *
  */
 // Filters::apply('lithium\console\Dispatcher', '_call', function($params, $next) {
-// 	$params['callable']->response->styles(array(
+// 	$params['callable']->response->styles([
 // 		'heading' => '\033[1;30;46m'
-// 	));
+// 	]);
 // 	return $next($params);
 // });
 

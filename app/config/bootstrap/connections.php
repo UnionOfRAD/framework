@@ -40,21 +40,21 @@ use lithium\data\Connections;
 /**
  * Uncomment this configuration to use MongoDB as your default database.
  */
-// Connections::add('default', array(
+// Connections::add('default', [
 // 	'type' => 'MongoDb',
 // 	'host' => 'localhost',
 // 	'database' => 'my_app'
-// ));
+// ]);
 
 /**
  * Uncomment this configuration to use CouchDB as your default database.
  */
-// Connections::add('default', array(
+// Connections::add('default', [
 // 	'type' => 'http',
 // 	'adapter' => 'CouchDb',
 // 	'host' => 'localhost',
 // 	'database' => 'my_app'
-// ));
+// ]);
 
 /**
  * Uncomment this configuration to use MySQL as your default database.
@@ -62,7 +62,7 @@ use lithium\data\Connections;
  * Strict mode can be enabled or disabled, older MySQL versions were
  * by default non-strict.
  */
-// Connections::add('default', array(
+// Connections::add('default', [
 // 	'type' => 'database',
 // 	'adapter' => 'MySql',
 // 	'host' => 'localhost',
@@ -71,6 +71,6 @@ use lithium\data\Connections;
 // 	'database' => 'my_app',
 // 	'encoding' => 'UTF-8',
 // 	'strict' => false
-// ));
+// ]);
 
 ?>

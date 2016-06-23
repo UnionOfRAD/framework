@@ -38,8 +38,8 @@ require dirname(__DIR__) . '/config/bootstrap.php';
  * @see lithium\net\http\Router
  * @see lithium\action\Controller
  */
-echo lithium\action\Dispatcher::run(new lithium\action\Request(array(
+echo lithium\action\Dispatcher::run(new lithium\action\Request([
 	// 'drain' => false
-)));
+]));
 
 ?>

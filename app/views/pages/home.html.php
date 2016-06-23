@@ -11,7 +11,7 @@ use lithium\core\Environment;
 use lithium\data\Connections;
 
 $this->title('Home');
-$this->html->style('debug', array('inline' => false));
+$this->html->style('debug', ['inline' => false]);
 
 $self = $this;
 
@@ -47,7 +47,7 @@ $compiled = function($flag) {
 	return strpos(ob_get_clean(), $flag) !== false;
 };
 
-$checks = array(
+$checks = [
 	'resourcesWritable' => function() use ($notify) {
 		if (is_writable($path = Libraries::get(true, 'resources'))) {
 			return $notify('success', 'Resources directory is writable');
@@ -151,11 +151,11 @@ $checks = array(
 		);
 	},
 	'dbSupport' => function() use ($support) {
-		$paths = array('data.source', 'adapter.data.source.database', 'adapter.data.source.http');
-		$list = array();
+		$paths = ['data.source', 'adapter.data.source.database', 'adapter.data.source.http'];
+		$list = [];
 
 		foreach ($paths as $path) {
-			$list = array_merge($list, Libraries::locate($path, null, array('recursive' => false)));
+			$list = array_merge($list, Libraries::locate($path, null, ['recursive' => false]));
 		}
 		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
 		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
@@ -163,7 +163,7 @@ $checks = array(
 		return $support('Database support', $map);
 	},
 	'cacheSupport' => function() use ($support) {
-		$list = Libraries::locate('adapter.storage.cache', null, array('recursive' => false));
+		$list = Libraries::locate('adapter.storage.cache', null, ['recursive' => false]);
 		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
 		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
 
@@ -201,13 +201,13 @@ $checks = array(
 				</ul>"
 			);
 		}
-		$tests = $self->html->link('run all tests', array(
+		$tests = $self->html->link('run all tests', [
 			'controller' => 'lithium\test\Controller',
 			'args' => 'all'
-		));
-		$dashboard = $self->html->link('test dashboard', array(
+		]);
+		$dashboard = $self->html->link('test dashboard', [
 			'controller' => 'lithium\test\Controller'
-		));
+		]);
 		$ticket = $self->html->link(
 			'file a ticket', 'https://github.com/UnionOfRAD/lithium/issues'
 		);
@@ -217,7 +217,7 @@ $checks = array(
 			"Check the {$dashboard} or {$tests} now to ensure Lithium is working as expected."
 		);
 	}
-);
+];
 
 ?>
 <div class="jumbotron">

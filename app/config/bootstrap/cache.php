@@ -37,13 +37,13 @@ $cachePath = Libraries::get(true, 'resources') . '/tmp/cache';
 if (!(($apc = Apc::enabled()) || PHP_SAPI === 'cli') && !is_writable($cachePath)) {
 	return;
 }
-Cache::config(array(
-	'default' => array(
+Cache::config([
+	'default' => [
 		'adapter' => $apc ? 'Apc' : 'File',
-		'strategies' => $apc ? array() : array('Serializer'),
+		'strategies' => $apc ? [] : ['Serializer'],
 		'scope' => $apc ? md5(LITHIUM_APP_PATH) : null
-	)
-));
+	]
+]);
 
 /**
  * Apply
@@ -88,11 +88,11 @@ Filters::apply('lithium\action\Dispatcher', 'run', function($params, $next) {
 			}
 			$cacheKey = "data.connections.{$name}.sources.{$params['entity']}.schema";
 
-			return Cache::read('default', $cacheKey, array(
+			return Cache::read('default', $cacheKey, [
 				'write' => function() use ($params, $next) {
-					return array('+1 day' => $next($params));
+					return ['+1 day' => $next($params)];
 				}
-			));
+			]);
 		});
 	}
 	return $next($params);

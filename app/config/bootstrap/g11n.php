@@ -47,11 +47,11 @@ date_default_timezone_set('UTC');
  * @see lithium\core\Environment
  */
 $locale = 'en';
-$locales = array('en' => 'English');
+$locales = ['en' => 'English'];
 
 Environment::set('production', compact('locale', 'locales'));
 Environment::set('development', compact('locale', 'locales'));
-Environment::set('test', array('locale' => 'en', 'locales' => array('en' => 'English')));
+Environment::set('test', ['locale' => 'en', 'locales' => ['en' => 'English']]);
 
 /**
  * Effective/Request Locale
@@ -67,7 +67,7 @@ $setLocale = function($params, $next) {
 	if (!$params['request']->locale()) {
 		$params['request']->locale(Locale::preferred($params['request']));
 	}
-	Environment::set(true, array('locale' => $params['request']->locale()));
+	Environment::set(true, ['locale' => $params['request']->locale()]);
 
 	return $next($params);
 };
@@ -96,19 +96,19 @@ Filters::apply('lithium\console\Dispatcher', '_callable', $setLocale);
  * @link https://github.com/UnionOfRAD/li3_lldr
  * @link https://github.com/UnionOfRAD/li3_cldr
  */
-Catalog::config(array(
-	'runtime' => array(
+Catalog::config([
+	'runtime' => [
 		'adapter' => 'Memory'
-	),
-	// 'app' => array(
+	],
+	// 'app' => [
 	// 	'adapter' => 'Gettext',
 	// 	'path' => Libraries::get(true, 'resources') . '/g11n'
-	// ),
-	'lithium' => array(
+	// ],
+	'lithium' => [
 		'adapter' => 'Php',
 		'path' => LITHIUM_LIBRARY_PATH . '/lithium/g11n/resources/php'
-	)
-) + Catalog::config());
+	]
+] + Catalog::config());
 
 /**
  * Multibyte Strings
@@ -122,11 +122,11 @@ Catalog::config(array(
  *
  * @see lithium\g11n\Multibyte
  */
-Multibyte::config(array(
-//	'default' => array('adapter' => 'Intl'),
-	'default' => array('adapter' => 'Mbstring'),
-//	'default' => array('adapter' => 'Iconv')
-) + Multibyte::config());
+Multibyte::config([
+//	'default' => ['adapter' => 'Intl'],
+	'default' => ['adapter' => 'Mbstring'],
+//	'default' => ['adapter' => 'Iconv']
+] + Multibyte::config());
 
 /**
  * Transliteration
@@ -139,7 +139,7 @@ Multibyte::config(array(
  * @see lithium\util\Inflector::slug()
  */
 // Inflector::rules('transliteration', Catalog::read(true, 'inflection.transliteration', 'en'));
-// Inflector::rules('transliteration', array('/É|Ê/' => 'E'));
+// Inflector::rules('transliteration', ['/É|Ê/' => 'E']);
 
 /**
  * Grammar
@@ -150,12 +150,12 @@ Multibyte::config(array(
  * @see lithium\g11n\Catalog
  * @see lithium\util\Inflector
  */
-// Inflector::rules('singular', array('rules' => array('/rata/' => '\1ratus')));
-// Inflector::rules('singular', array('irregular' => array('foo' => 'bar')));
-// Inflector::rules('plural', array('rules' => array('/rata/' => '\1ratum')));
-// Inflector::rules('plural', array('irregular' => array('bar' => 'foo')));
+// Inflector::rules('singular', ['rules' => ['/rata/' => '\1ratus']]);
+// Inflector::rules('singular', ['irregular' => ['foo' => 'bar']]);
+// Inflector::rules('plural', ['rules' => ['/rata/' => '\1ratum']]);
+// Inflector::rules('plural', ['irregular' => ['bar' => 'foo']]);
 // Inflector::rules('uninflected', 'bord');
-// Inflector::rules('uninflected', array('bord', 'baird'));
+// Inflector::rules('uninflected', ['bord', 'baird']);
 
 /**
  * Validation
@@ -166,10 +166,10 @@ Multibyte::config(array(
  *
  * {{{
  * // ...
- *	public $validates = array(
- *		'zip' => array(
- *			array('postalCode', 'format' => 'de_DE')
- *		)
+ *	public $validates = (
+ *		'zip' => [
+ *			['postalCode', 'format' => 'de_DE']
+ *		]
  *		// ...
  * }}}
  *
@@ -189,7 +189,7 @@ Multibyte::config(array(
  * @see lithium\g11n\Multibyte
  * @see lithium\util\Validator
  */
-foreach (array('phone', 'postalCode', 'ssn') as $name) {
+foreach (['phone', 'postalCode', 'ssn'] as $name) {
 	$regex = Validator::rules($name);
 
 	Validator::add($name, function($value, $format, $options) use ($name, $regex) {
@@ -206,7 +206,7 @@ foreach (array('phone', 'postalCode', 'ssn') as $name) {
 }
 Validator::add('lengthBetween', function($value, $format, $options) {
 	$length = Multibyte::strlen($value);
-	$options += array('min' => 1, 'max' => 255);
+	$options += ['min' => 1, 'max' => 255];
 	return ($length >= $options['min'] && $length <= $options['max']);
 });
 
@@ -221,7 +221,7 @@ Validator::add('lengthBetween', function($value, $format, $options) {
  * @see lithium\net\http\Media
  */
 Filters::apply('lithium\net\http\Media', '_handle', function($params, $next) {
-	$params['handler'] += array('outputFilters' => array());
+	$params['handler'] += ['outputFilters' => []];
 	$params['handler']['outputFilters'] += Message::aliases();
 	return $next($params);
 });

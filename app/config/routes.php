@@ -31,7 +31,7 @@ use lithium\core\Environment;
  */
 if ($locales = Environment::get('locales')) {
 	$template = '/{:locale:' . join('|', array_keys($locales)) . '}/{:args}';
-	Router::connect($template, array(), array('continue' => true));
+	Router::connect($template, [], ['continue' => true]);
 }
 
 /**
@@ -61,8 +61,8 @@ Router::connect('/pages/{:args}', 'Pages::view');
  * [http://path/to/app/test](/test) to run tests.
  */
 if (!Environment::is('production')) {
-	Router::connect('/test/{:args}', array('controller' => 'lithium\test\Controller'));
-	Router::connect('/test', array('controller' => 'lithium\test\Controller'));
+	Router::connect('/test/{:args}', ['controller' => 'lithium\test\Controller']);
+	Router::connect('/test', ['controller' => 'lithium\test\Controller']);
 }
 
 /**
@@ -76,14 +76,14 @@ if (!Environment::is('production')) {
  * is an integer, uncomment the routes below to enable URLs like `/posts/edit/1138`,
  * `/posts/view/1138.json`, etc.
  */
-// Router::connect('/{:controller}/{:action}/{:id:\d+}.{:type}', array('id' => null));
+// Router::connect('/{:controller}/{:action}/{:id:\d+}.{:type}', ['id' => null]);
 // Router::connect('/{:controller}/{:action}/{:id:\d+}');
 
 /**
  * If you're using a document-oriented database, such as CouchDB or MongoDB, or another type of
  * database which uses 24-character hexidecimal values as primary keys, uncomment the routes below.
  */
-// Router::connect('/{:controller}/{:action}/{:id:[0-9a-f]{24}}.{:type}', array('id' => null));
+// Router::connect('/{:controller}/{:action}/{:id:[0-9a-f]{24}}.{:type}', ['id' => null]);
 // Router::connect('/{:controller}/{:action}/{:id:[0-9a-f]{24}}');
 
 /**

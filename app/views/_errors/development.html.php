@@ -10,7 +10,7 @@ use lithium\analysis\Debugger;
 use lithium\analysis\Inspector;
 
 $exception = $info['exception'];
-$replace = array('&lt;?php', '?&gt;', '<code>', '</code>', "\n");
+$replace = ['&lt;?php', '?&gt;', '<code>', '</code>', "\n"];
 $context = 5;
 
 /**
@@ -22,13 +22,13 @@ ini_set('highlight.keyword', '#D42AAE');
 ini_set('highlight.default', '#3C96FF');
 ini_set('highlight.htm', '#FFFFFF');
 
-$stack = Debugger::trace(array('format' => 'array', 'trace' => $exception->getTrace()));
+$stack = Debugger::trace(['format' => 'array', 'trace' => $exception->getTrace()]);
 
-array_unshift($stack, array(
+array_unshift($stack, [
 	'functionRef' => '[exception]',
 	'file' => $exception->getFile(),
 	'line' => $exception->getLine()
-));
+]);
 
 ?>
 <h3>Exception</h3>
@@ -73,7 +73,7 @@ array_unshift($stack, array(
 						<pre><code><?php
 							foreach ($code as $num => $content):
 								$numPad = str_pad($num, 3, ' ');
-								$content = str_ireplace(array('<?php', '?>'), '', $content);
+								$content = str_ireplace(['<?php', '?>'], '', $content);
 								$content = highlight_string("<?php {$numPad}{$content} ?>", true);
 								$content = str_replace($replace, '', $content);
 

@@ -40,7 +40,7 @@ Collection::formats('lithium\net\http\Media');
 //
 // Filters::apply('lithium\action\Dispatcher', '_callable', function($params, $next) {
 // 	$url = ltrim($params['request']->url, '/');
-// 	list($library, $asset) = explode('/', $url, 2) + array("", "");
+// 	list($library, $asset) = explode('/', $url, 2) + ["", ""];
 //
 // 	if ($asset && ($path = Media::webroot($library)) && file_exists($file = "{$path}/{$asset}")) {
 // 		return function() use ($file) {
@@ -48,10 +48,10 @@ Collection::formats('lithium\net\http\Media');
 // 			$media = Media::type($info['extension']);
 // 			$content = (array) $media['content'];
 //
-// 			return new Response(array(
-// 				'headers' => array('Content-type' => reset($content)),
+// 			return new Response([
+// 				'headers' => ['Content-type' => reset($content)],
 // 				'body' => file_get_contents($file)
-// 			));
+// 			]);
 // 		};
 // 	}
 // 	return $next($params);

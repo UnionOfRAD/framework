@@ -111,7 +111,7 @@ Libraries::add('lithium');
  * Add the application.  You can pass a `'path'` key here if this bootstrap file is outside of
  * your main application, but generally you should not need to change any settings.
  */
-Libraries::add('app', array('default' => true));
+Libraries::add('app', ['default' => true]);
 
 /**
  * Add lithium plugins. You may manually add plugins or use the library discovery mechanism
@@ -121,7 +121,7 @@ Libraries::add('app', array('default' => true));
 // $pattern = '{' . LITHIUM_LIBRARY_PATH . ',' . LITHIUM_APP_PATH . '/libraries}/li3_*';
 //
 // foreach (glob($pattern, GLOB_BRACE | GLOB_ONLYDIR) as $path) {
-// 	Libraries::add(basename($path), array('path' => $path));
+// 	Libraries::add(basename($path), ['path' => $path]);
 // }
 
 ?>
