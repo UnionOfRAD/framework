@@ -119,10 +119,10 @@ Libraries::add('app', ['default' => true]);
  * by uncommenting the code below. This will automatically register any libraries prefixed
  * with `li3_` in the libraries directories and enable autoloading of them.
  */
-// $pattern = '{' . LITHIUM_LIBRARY_PATH . ',' . LITHIUM_APP_PATH . '/libraries}/li3_*';
-//
-// foreach (glob($pattern, GLOB_BRACE | GLOB_ONLYDIR) as $path) {
-// 	Libraries::add(basename($path), ['path' => $path]);
+// foreach ([LITHIUM_LIBRARY_PATH, LITHIUM_APP_PATH] as $base) {
+// 	foreach (glob($base .'/libraries/li3_*', GLOB_ONLYDIR) as $path) {
+// 		Libraries::add(basename($path), compact('path'));
+// 	}
 // }
 
 ?>
