@@ -21,9 +21,10 @@
  * return $posts->to('json');
  * }}}
  */
+use lithium\net\http\Media;
 use lithium\util\Collection;
 
-Collection::formats('lithium\net\http\Media');
+Collection::formats(Media::class);
 
 /**
  * This filter is a convenience method which allows you to automatically route requests for static
@@ -35,10 +36,10 @@ Collection::formats('lithium\net\http\Media');
  * rules in your web server's configuration.
  */
 // use lithium\aop\Filters;
+// use lithium\action\Dispatcher;
 // use lithium\action\Response;
-// use lithium\net\http\Media;
 //
-// Filters::apply('lithium\action\Dispatcher', '_callable', function($params, $next) {
+// Filters::apply(Dispatcher::class, '_callable', function($params, $next) {
 // 	$url = ltrim($params['request']->url, '/');
 // 	list($library, $asset) = explode('/', $url, 2) + ["", ""];
 //
