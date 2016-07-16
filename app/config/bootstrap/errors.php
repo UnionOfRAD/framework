@@ -7,11 +7,12 @@
  * The full license text can be found in the LICENSE.txt file.
  */
 
+use lithium\action\Dispatcher;
 use lithium\core\ErrorHandler;
 use lithium\action\Response;
 use lithium\net\http\Media;
 
-ErrorHandler::apply('lithium\action\Dispatcher::run', [], function($info, $params) {
+ErrorHandler::apply(Dispatcher::class . '::run', [], function($info, $params) {
 	$response = new Response([
 		'request' => $params['request'],
 		'status' => $info['exception']->getCode()

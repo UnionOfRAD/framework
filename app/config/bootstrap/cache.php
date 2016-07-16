@@ -7,6 +7,7 @@
  * The full license text can be found in the LICENSE.txt file.
  */
 
+use lithium\action\Dispatcher;
 use lithium\aop\Filters;
 use lithium\storage\Cache;
 use lithium\storage\cache\adapter\Apc;
@@ -63,7 +64,7 @@ if (!Environment::is('production')) {
 	return;
 }
 
-Filters::apply('lithium\action\Dispatcher', 'run', function($params, $next) {
+Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	$cacheKey = 'core.libraries';
 
 	if ($cached = Cache::read('default', $cacheKey)) {
@@ -78,7 +79,7 @@ Filters::apply('lithium\action\Dispatcher', 'run', function($params, $next) {
 	return $result;
 });
 
-Filters::apply('lithium\action\Dispatcher', 'run', function($params, $next) {
+Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	foreach (Connections::get() as $name) {
 		if (!(($connection = Connections::get($name)) instanceof Database)) {
 			continue;
