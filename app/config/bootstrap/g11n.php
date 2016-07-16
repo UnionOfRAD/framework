@@ -22,7 +22,6 @@ use lithium\g11n\Multibyte;
 use lithium\net\http\Media;
 use lithium\util\Inflector;
 use lithium\util\Validator;
-use RuntimeException;
 
 /**
  * Dates
