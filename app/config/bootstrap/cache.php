@@ -83,15 +83,15 @@ Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 		if (!(($connection = Connections::get($name)) instanceof Database)) {
 			continue;
 		}
-		Filters::apply($connection, 'describe', function($params, $chain) use ($name) {
+		Filters::apply($connection, 'describe', function($params, $nested_next) use ($name) {
 			if ($params['fields']) {
-				return $next($params);
+				return $nested_next($params);
 			}
 			$cacheKey = "data.connections.{$name}.sources.{$params['entity']}.schema";
 
 			return Cache::read('default', $cacheKey, [
-				'write' => function() use ($params, $next) {
-					return ['+1 day' => $next($params)];
+				'write' => function() use ($params, $nested_next) {
+					return ['+1 day' => $nested_next($params)];
 				}
 			]);
 		});
