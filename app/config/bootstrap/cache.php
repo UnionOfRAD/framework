@@ -6,6 +6,7 @@
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
+use lithium\action\Dispatcher;
 use lithium\aop\Filters;
 use lithium\storage\Cache;
 use lithium\storage\cache\adapter\Apc;
@@ -62,7 +63,7 @@ if (!Environment::is('production')) {
 	return;
 }
 
-Filters::apply('lithium\action\Dispatcher', 'run', function($params, $next) {
+Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	$cacheKey = 'core.libraries';
 
 	if ($cached = Cache::read('default', $cacheKey)) {
@@ -77,20 +78,20 @@ Filters::apply('lithium\action\Dispatcher', 'run', function($params, $next) {
 	return $result;
 });
 
-Filters::apply('lithium\action\Dispatcher', 'run', function($params, $next) {
+Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	foreach (Connections::get() as $name) {
 		if (!(($connection = Connections::get($name)) instanceof Database)) {
 			continue;
 		}
-		Filters::apply($connection, 'describe', function($params, $chain) use ($name) {
+		Filters::apply($connection, 'describe', function($params, $nested_next) use ($name) {
 			if ($params['fields']) {
-				return $next($params);
+				return $nested_next($params);
 			}
 			$cacheKey = "data.connections.{$name}.sources.{$params['entity']}.schema";
 
 			return Cache::read('default', $cacheKey, [
-				'write' => function() use ($params, $next) {
-					return ['+1 day' => $next($params)];
+				'write' => function() use ($params, $nested_next) {
+					return ['+1 day' => $nested_next($params)];
 				}
 			]);
 		});

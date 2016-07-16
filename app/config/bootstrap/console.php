@@ -7,6 +7,7 @@
  */
 
 use lithium\aop\Filters;
+use lithium\console\Dispatcher;
 use lithium\core\Environment;
 use lithium\core\Libraries;
 
@@ -17,7 +18,7 @@ use lithium\core\Libraries;
  * Routes are also loaded, to facilitate URL generation from within the console environment.
  *
  */
-Filters::apply('lithium\console\Dispatcher', 'run', function($params, $next) {
+Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	Environment::set($params['request']);
 
 	foreach (array_reverse(Libraries::get()) as $name => $config) {
@@ -35,7 +36,7 @@ Filters::apply('lithium\console\Dispatcher', 'run', function($params, $next) {
  * output and creating different sections.
  *
  */
-// Filters::apply('lithium\console\Dispatcher', '_call', function($params, $next) {
+// Filters::apply(Dispatcher::class, '_call', function($params, $next) {
 // 	$params['callable']->response->styles([
 // 		'heading' => '\033[1;30;46m'
 // 	]);

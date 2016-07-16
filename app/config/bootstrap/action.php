@@ -17,6 +17,7 @@
  * @see lithium\aop\Filters
  */
 
+use lithium\action\Dispatcher;
 use lithium\aop\Filters;
 use lithium\core\Libraries;
 use lithium\core\Environment;
@@ -38,7 +39,7 @@ use lithium\core\Environment;
  * @see lithium\core\Environment
  * @see lithium\net\http\Router
  */
-Filters::apply('lithium\action\Dispatcher', 'run', function($params, $next) {
+Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	Environment::set($params['request']);
 
 	foreach (array_reverse(Libraries::get()) as $name => $config) {

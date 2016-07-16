@@ -10,16 +10,18 @@
  * This bootstrap file contains configurations for all globalizing
  * aspects of your application.
  */
+use lithium\action\Dispatcher as ActionDispatcher;
 use lithium\aop\Filters;
 use lithium\core\Libraries;
+use lithium\console\Dispatcher as ConsoleDispatcher;
 use lithium\core\Environment;
 use lithium\g11n\Locale;
 use lithium\g11n\Catalog;
 use lithium\g11n\Message;
 use lithium\g11n\Multibyte;
+use lithium\net\http\Media;
 use lithium\util\Inflector;
 use lithium\util\Validator;
-use RuntimeException;
 
 /**
  * Dates
@@ -71,8 +73,8 @@ $setLocale = function($params, $next) {
 
 	return $next($params);
 };
-Filters::apply('lithium\action\Dispatcher', '_callable', $setLocale);
-Filters::apply('lithium\console\Dispatcher', '_callable', $setLocale);
+Filters::apply(ActionDispatcher::class, '_callable', $setLocale);
+Filters::apply(ConsoleDispatcher::class, '_callable', $setLocale);
 
 /**
  * Resources
@@ -96,6 +98,7 @@ Filters::apply('lithium\console\Dispatcher', '_callable', $setLocale);
  * @link https://github.com/UnionOfRAD/li3_lldr
  * @link https://github.com/UnionOfRAD/li3_cldr
  */
+
 Catalog::config([
 	'runtime' => [
 		'adapter' => 'Memory'
@@ -220,7 +223,7 @@ Validator::add('lengthBetween', function($value, $format, $options) {
  * @see lithium\g11n\Message::aliases()
  * @see lithium\net\http\Media
  */
-Filters::apply('lithium\net\http\Media', '_handle', function($params, $next) {
+Filters::apply(Media::class, '_handle', function($params, $next) {
 	$params['handler'] += ['outputFilters' => []];
 	$params['handler']['outputFilters'] += Message::aliases();
 	return $next($params);
