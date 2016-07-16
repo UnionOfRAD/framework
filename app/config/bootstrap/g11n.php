@@ -20,7 +20,6 @@ use lithium\g11n\Message;
 use lithium\g11n\Multibyte;
 use lithium\util\Inflector;
 use lithium\util\Validator;
-use RuntimeException;
 
 /**
  * Dates
