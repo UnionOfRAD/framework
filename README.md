@@ -7,6 +7,6 @@ overarching directory layout, an example starting application, and a copy of the
 ## Installation
 
 To install the distribution follow the steps outlined in
-[Installation](http://li3.me/docs/manual/installation). For a quickstart read
-[The Quintessential Blog Tutorial](http://li3.me/docs/manual/quickstart) to
+[Installation](http://li3.me/docs/book/manual/1.x/installation/). For a quickstart read
+[The Quintessential Blog Tutorial](http://li3.me/docs/book/manual/1.x/quickstart) to
 create your first project.
