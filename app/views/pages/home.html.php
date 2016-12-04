@@ -20,7 +20,11 @@ $notify = function($status, $message, $solution = null) {
 	return $html;
 };
 
-$support = function($heading, $data) {
+$docUrl = function($class) {
+	return 'http://li3.me/docs/api/lithium/1.1.x/lithium/' . str_replace('\\', '/', $class);
+};
+
+$support = function($heading, $data) use ($docUrl) {
 	$result = "<h3>{$heading}</h3>";
 
 	if (is_string($data)) {
@@ -30,7 +34,7 @@ $support = function($heading, $data) {
 
 	foreach ($data as $class => $enabled) {
 		$name = substr($class, strrpos($class, '\\') + 1);
-		$url = 'http://li3.me/docs/' . str_replace('\\', '/', $class);
+		$url = $docUrl($class);
 		$class = $enabled ? 'enabled' : 'disabled';
 		$title = $enabled ? "Adapter `{$name}` is enabled." : "Adapter `{$name}` is disabled.";
 		$result .= "<li><a href=\"{$url}\" title=\"{$title}\" class=\"{$class}\">{$name}</a></li>";
@@ -136,8 +140,8 @@ $checks = [
 			</ol>"
 		);
 	},
-	'change' => function() use ($notify) {
-		$template = $this->html->link('template', 'http://li3.me/docs/lithium/template');
+	'change' => function() use ($notify, $docUrl) {
+		$template = $this->html->link('template', $docUrl('lithium\template'));
 
 		return $notify(
 			'warning',
@@ -168,8 +172,8 @@ $checks = [
 
 		return $support('Cache support', $map);
 	},
-	'routing' => function() use ($support) {
-		$routing = $this->html->link('routing', 'http://li3.me/docs/lithium/net/http/Router');
+	'routing' => function() use ($support, $docUrl) {
+		$routing = $this->html->link('routing', $docUrl('lithium\net\http\Router'));
 
 		return $support(
 			'Custom routing',
@@ -177,11 +181,11 @@ $checks = [
 			{$routing}, edit the file <code>config/routes.php</code>."
 		);
 	},
-	'tests' => function() use ($notify, $support) {
+	'tests' => function() use ($notify, $support, $docUrl) {
 		if (Environment::is('production')) {
 			$docsLink = $this->html->link(
 				'the documentation',
-				'http://li3.me/docs/lithium/core/Environment::is()'
+				$docUrl('lithium\core\Environment::is()')
 			);
 
 			return $notify(
@@ -243,9 +247,9 @@ $checks = [
 <h3>Learn more</h3>
 <p>
 	Read the
-	<?php echo $this->html->link('Manual', 'http://li3.me/docs/lithium'); ?>
+	<?php echo $this->html->link('Manual', 'http://li3.me/docs/book/manual/1.x'); ?>
 	for detailed explanations and tutorials. The
-	<?php echo $this->html->link('API documentation', 'http://li3.me/docs/lithium'); ?>
+	<?php echo $this->html->link('API documentation', 'http://li3.me/docs/api/lithium/1.1.x'); ?>
 	has all the implementation details you've been looking for.
 </p>
 

@@ -23,13 +23,13 @@
 		<div class="masthead">
 			<ul class="nav nav-pills pull-right">
 				<li>
-					<a href="http://li3.me/docs/manual/quickstart">Quickstart</a>
+					<a href="http://li3.me/docs/book/manual/1.x/quickstart">Quickstart</a>
 				</li>
 				<li>
-					<a href="http://li3.me/docs/manual">Manual</a>
+					<a href="http://li3.me/docs/book/manual/1.x/">Manual</a>
 				</li>
 				<li>
-					<a href="http://li3.me/docs/lithium">API</a>
+					<a href="http://li3.me/docs/api/lithium/1.1.x/lithium">API</a>
 				</li>
 				<li>
 					<a href="http://li3.me/">More</a>
