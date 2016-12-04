@@ -14,8 +14,6 @@ use lithium\data\Connections;
 $this->title('Home');
 $this->html->style('debug', ['inline' => false]);
 
-$self = $this;
-
 $notify = function($status, $message, $solution = null) {
 	$html  = "<h4 class=\"alert alert-{$status}\">{$message}</h4>";
 	$html .= "<p>{$solution}</p>";
@@ -138,8 +136,8 @@ $checks = [
 			</ol>"
 		);
 	},
-	'change' => function() use ($notify, $self) {
-		$template = $self->html->link('template', 'http://li3.me/docs/lithium/template');
+	'change' => function() use ($notify) {
+		$template = $this->html->link('template', 'http://li3.me/docs/lithium/template');
 
 		return $notify(
 			'warning',
@@ -170,8 +168,8 @@ $checks = [
 
 		return $support('Cache support', $map);
 	},
-	'routing' => function() use ($support, $self) {
-		$routing = $self->html->link('routing', 'http://li3.me/docs/lithium/net/http/Router');
+	'routing' => function() use ($support) {
+		$routing = $this->html->link('routing', 'http://li3.me/docs/lithium/net/http/Router');
 
 		return $support(
 			'Custom routing',
@@ -179,9 +177,9 @@ $checks = [
 			{$routing}, edit the file <code>config/routes.php</code>."
 		);
 	},
-	'tests' => function() use ($notify, $support, $self) {
+	'tests' => function() use ($notify, $support) {
 		if (Environment::is('production')) {
-			$docsLink = $self->html->link(
+			$docsLink = $this->html->link(
 				'the documentation',
 				'http://li3.me/docs/lithium/core/Environment::is()'
 			);
@@ -202,14 +200,14 @@ $checks = [
 				</ul>"
 			);
 		}
-		$tests = $self->html->link('run all tests', [
+		$tests = $this->html->link('run all tests', [
 			'controller' => 'lithium\test\Controller',
 			'args' => 'all'
 		]);
-		$dashboard = $self->html->link('test dashboard', [
+		$dashboard = $this->html->link('test dashboard', [
 			'controller' => 'lithium\test\Controller'
 		]);
-		$ticket = $self->html->link(
+		$ticket = $this->html->link(
 			'file a ticket', 'https://github.com/UnionOfRAD/lithium/issues'
 		);
 
