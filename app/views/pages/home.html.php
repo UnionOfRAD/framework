@@ -255,21 +255,10 @@ $checks = [
 
 <h3>Community</h3>
 <p>
-	Chat with other Lithium users and the team developing Lithium.
+	li3 is not just a framework, but the embodiment of a community. This community is dedicated to open collaboration and friendly discourse, with the goal of producing better quality software.
+	Most importantly, you are invited to <em>participate</em>.
 </p>
 <p>
-	For <strong>general support</strong> hop on the
-	<?php echo $this->html->link('#li3 channel', 'irc://irc.freenode.net/#li3'); ?>
-	or read the
-	<?php echo $this->html->link('logs', 'http://li3.me/bot/logs/li3'); ?>.
-</p>
-<p>
-	For <strong>core discussions</strong> join us in the
-	<?php echo $this->html->link('#li3-core channel', 'irc://irc.freenode.net/#li3-core'); ?>
-	or read the
-	<?php echo $this->html->link('logs', 'http://li3.me/bot/logs/li3-core'); ?>.
-</p>
-<p>
-	Browse the Lithium
-	<?php echo $this->html->link('Source', 'https://github.com/UnionOfRAD/lithium'); ?>
+	For <strong>general support</strong> have a look on the questions tagged with <em>lithium</em>
+	<?php echo $this->html->link('on stackoverflow', 'http://stackoverflow.com/questions/tagged/lithium') ?>.
 </p>
