@@ -155,21 +155,32 @@ $checks = [
 	},
 	'dbSupport' => function() use ($support) {
 		$paths = ['data.source', 'adapter.data.source.database', 'adapter.data.source.http'];
-		$list = [];
+		$map = [];
 
+		error_reporting(($original = error_reporting()) & ~E_USER_DEPRECATED);
 		foreach ($paths as $path) {
-			$list = array_merge($list, Libraries::locate($path, null, ['recursive' => false]));
-		}
-		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
-		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
+			$list = Libraries::locate($path, null, ['recursive' => false]);
 
+			foreach ($list as $class) {
+				if (method_exists($class, 'enabled')) {
+					$map[$class] = $class::enabled();
+				}
+			}
+		}
+		error_reporting($original);
 		return $support('Database support', $map);
 	},
 	'cacheSupport' => function() use ($support) {
 		$list = Libraries::locate('adapter.storage.cache', null, ['recursive' => false]);
-		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
-		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
+		$map = [];
 
+		error_reporting(($original = error_reporting()) & ~E_USER_DEPRECATED);
+		foreach ($list as $class) {
+			if (method_exists($class, 'enabled')) {
+				$map[$class] = $class::enabled();
+			}
+		}
+		error_reporting($original);
 		return $support('Cache support', $map);
 	},
 	'routing' => function() use ($support, $docUrl) {
