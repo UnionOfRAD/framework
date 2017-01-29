@@ -9,10 +9,6 @@
 
 namespace app\config\bootstrap;
 
-/**
- * This bootstrap file contains configurations for all globalizing
- * aspects of your application.
- */
 use lithium\action\Dispatcher as ActionDispatcher;
 use lithium\aop\Filters;
 use lithium\core\Libraries;
@@ -101,7 +97,6 @@ Filters::apply(ConsoleDispatcher::class, '_callable', $setLocale);
  * @link https://github.com/UnionOfRAD/li3_lldr
  * @link https://github.com/UnionOfRAD/li3_cldr
  */
-
 Catalog::config([
 	'runtime' => [
 		'adapter' => 'Memory'

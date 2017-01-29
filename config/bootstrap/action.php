@@ -9,17 +9,6 @@
 
 namespace app\config\bootstrap;
 
-/**
- * This file contains a series of method filters that allow you to intercept different parts of
- * Lithium's dispatch cycle. The filters below are used for on-demand loading of routing
- * configuration, and automatically configuring the correct environment in which the application
- * runs.
- *
- * For more information on in the filters system, see `lithium\aop\Filters`.
- *
- * @see lithium\aop\Filters
- */
-
 use lithium\action\Dispatcher;
 use lithium\aop\Filters;
 use lithium\core\Libraries;

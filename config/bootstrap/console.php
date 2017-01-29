@@ -19,7 +19,6 @@ use lithium\core\Libraries;
  * example in the command `li3 help --env=production`, is used to determine the environment.
  *
  * Routes are also loaded, to facilitate URL generation from within the console environment.
- *
  */
 Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	Environment::set($params['request']);

@@ -9,6 +9,12 @@
 
 namespace app\config\bootstrap;
 
+use lithium\net\http\Media;
+use lithium\util\Collection;
+// use lithium\aop\Filters;
+// use lithium\action\Dispatcher;
+// use lithium\action\Response;
+
 /**
  * The `Collection` class, which serves as the base class for some of Lithium's data objects
  * (`RecordSet` and `Document`) provides a way to manage data collections in a very flexible and
@@ -19,14 +25,11 @@ namespace app\config\bootstrap;
  * The following connects the `Media` class as a format handler, which allows `Collection`s to be
  * exported to any format with a handler provided by `Media`, i.e. JSON. This enables things like
  * the following:
- * {{{
+ * ```
  * $posts = Post::find('all');
  * return $posts->to('json');
- * }}}
+ * ```
  */
-use lithium\net\http\Media;
-use lithium\util\Collection;
-
 Collection::formats(Media::class);
 
 /**
@@ -38,10 +41,6 @@ Collection::formats(Media::class);
  * plugin's `webroot` directory into your main application's `webroot` directory, or adding routing
  * rules in your web server's configuration.
  */
-// use lithium\aop\Filters;
-// use lithium\action\Dispatcher;
-// use lithium\action\Response;
-//
 // Filters::apply(Dispatcher::class, '_callable', function($params, $next) {
 // 	$url = ltrim($params['request']->url, '/');
 // 	list($library, $asset) = explode('/', $url, 2) + ["", ""];

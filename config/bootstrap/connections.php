@@ -9,6 +9,8 @@
 
 namespace app\config\bootstrap;
 
+use lithium\data\Connections;
+
 /**
  * ### Configuring backend database connections
  *
@@ -38,21 +40,12 @@ namespace app\config\bootstrap;
  * @see lithium\core\Adaptable
  * @see lithium\core\Environment
  */
-
-use lithium\data\Connections;
-
-/**
- * Uncomment this configuration to use MongoDB as your default database.
- */
 // Connections::add('default', [
 // 	'type' => 'MongoDb',
 // 	'host' => 'localhost',
 // 	'database' => 'app'
 // ]);
 
-/**
- * Uncomment this configuration to use CouchDB as your default database.
- */
 // Connections::add('default', [
 // 	'type' => 'http',
 // 	'adapter' => 'CouchDb',
@@ -60,10 +53,6 @@ use lithium\data\Connections;
 // 	'database' => 'app'
 // ]);
 
-/**
- * Uncomment this configuration to use MySQL as your default database. Strict mode can be
- * enabled or disabled, older MySQL versions were by default non-strict.
- */
 // Connections::add('default', [
 // 	'type' => 'database',
 // 	'adapter' => 'MySql',

@@ -9,14 +9,15 @@
 
 namespace app\config\bootstrap;
 
+use lithium\storage\Session;
+// use lithium\security\Auth;
+
 /**
  * This configures your session storage. The Cookie storage adapter must be connected first, since
  * it intercepts any writes where the `'expires'` key is set in the options array.
  * The default name is based on the lithium app path. Remember, if your app is numeric or has
  * special characters you might want to use Inflector::slug() or set this manually.
  */
-use lithium\storage\Session;
-
 $name = basename(LITHIUM_APP_PATH);
 Session::config([
 	// 'cookie' => ['adapter' => 'Cookie', 'name' => $name],
@@ -41,8 +42,6 @@ Session::config([
  * @see lithium\action\Request::$data
  * @see lithium\security\Auth
  */
-// use lithium\security\Auth;
-
 // Auth::config([
 // 	'default' => [
 // 		'adapter' => 'Form',
