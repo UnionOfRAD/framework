@@ -18,7 +18,7 @@ composer create-project unionofrad/framework project
 Inside the the `project` directory start the builtin PHP development webserver.
 
 ```
-php -S 127.0.0.1:8080 -t app/webroot index.php
+php -S 127.0.0.1:8080 -t webroot index.php
 ```
 
 You should now be able to see the welcome page by visiting [http://127.0.0.1:8080](http://127.0.0.1:8080).

@@ -17,7 +17,6 @@
 
 # Libraries 
 libraries/*
-app/libraries/*
 
 # Temporary files, i.e. compiled templates.
-app/resources/tmp/*
+resources/tmp/*
