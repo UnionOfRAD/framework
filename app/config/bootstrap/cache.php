@@ -13,8 +13,9 @@ use lithium\storage\Cache;
 use lithium\storage\cache\adapter\Apc;
 use lithium\core\Libraries;
 use lithium\core\Environment;
-use lithium\data\Connections;
-use lithium\data\source\Database;
+use lithium\data\source\database\adapter\MySql;
+use lithium\data\source\database\adapter\PostgreSql;
+use lithium\data\source\database\adapter\Sqlite3;
 
 /**
  * Configuration
@@ -79,25 +80,21 @@ Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	return $result;
 });
 
-Filters::apply(Dispatcher::class, 'run', function($params, $next) {
-	foreach (Connections::get() as $name) {
-		if (!(($connection = Connections::get($name)) instanceof Database)) {
-			continue;
-		}
-		Filters::apply($connection, 'describe', function($params, $next) use ($name) {
-			if ($params['fields']) {
-				return $next($params);
-			}
-			$cacheKey = "data.connections.{$name}.sources.{$params['entity']}.schema";
-
-			return Cache::read('default', $cacheKey, [
-				'write' => function() use ($params, $next) {
-					return ['+1 day' => $next($params)];
-				}
-			]);
-		});
+$schemaCache = function($params, $next) {
+	if ($params['fields']) {
+		return $next($params);
 	}
-	return $next($params);
-});
+	$cacheKey  = "data.connections.{$params['meta']['connection']}.";
+	$cacheKey .= "sources.{$params['entity']}.schema";
+
+	return Cache::read('default', $cacheKey, [
+		'write' => function() use ($params, $next) {
+			return ['+1 day' => $next($params)];
+		}
+	]);
+};
+Filters::apply(MySql::class, 'describe', $schemaCache);
+Filters::apply(PostgreSql::class, 'describe', $schemaCache);
+Filters::apply(Sqlite3::class, 'describe', $schemaCache);
 
 ?>
