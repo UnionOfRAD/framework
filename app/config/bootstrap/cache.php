@@ -10,7 +10,6 @@
 use lithium\action\Dispatcher;
 use lithium\aop\Filters;
 use lithium\storage\Cache;
-use lithium\storage\cache\adapter\Apc;
 use lithium\core\Libraries;
 use lithium\core\Environment;
 use lithium\data\source\database\adapter\MySql;
@@ -24,29 +23,26 @@ use lithium\data\source\database\adapter\Sqlite3;
  * `File`, `Redis`, `Apc`, `XCache` and `Memory`. Please see the documentation on the
  * adapters for specific characteristics and requirements.
  *
- * Most of this code is for getting you up and running only, and should be replaced with
- * a hard-coded configuration, based on the cache(s) you plan to use.
- *
- * We create a default cache configuration using the most optimized adapter available, and
- * use it to provide default caching for high-overhead operations. If APC is not available
- * and we can't degrade to file based caching, bail out.
+ * By default the almost always available `File` cache adapter is used below. This
+ * is for getting oyu up and running only and should be replaced with a better Cache
+ * configuration, based on the cache/s you plan to use.
  *
  * @see lithium\storage\Cache
  * @see lithium\storage\cache\adapters
  * @see lithium\storage\cache\strategies
  */
-$cachePath = Libraries::get(true, 'resources') . '/tmp/cache';
-
-if (!(($apc = Apc::enabled()) || PHP_SAPI === 'cli') && !is_writable($cachePath)) {
-	return;
-}
 Cache::config([
 	'default' => [
-		'adapter' => $apc ? 'Apc' : 'File',
-		'strategies' => $apc ? [] : ['Serializer'],
-		'scope' => $apc ? md5(LITHIUM_APP_PATH) : null
+		'adapter' => 'File',
+		'strategies' => ['Serializer']
 	]
 ]);
+// Cache::config([
+// 	'default' => [
+// 		'adapter' => 'Memcache',
+// 		'scope' => hash('md5', LITHIUM_APP_PATH)
+// 	]
+// ]);
 
 /**
  * Apply
