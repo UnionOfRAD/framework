@@ -12,10 +12,10 @@ Make sure you have [Composer](http://getcomposer.org/doc/00-intro.md) installed,
 run the following command to create an initial project from this distribution:
 
 ```
-composer create-project unionofrad/framework project
+composer create-project unionofrad/framework app
 ```
 
-Inside the the `project` directory start the builtin PHP development webserver.
+Inside the the `app` directory start the builtin PHP development webserver.
 
 ```
 php -S 127.0.0.1:8080 -t webroot index.php
