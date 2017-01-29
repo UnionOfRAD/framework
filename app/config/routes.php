@@ -23,17 +23,18 @@ use lithium\core\Environment;
 /**
  * ### Continuation routes
  *
- * With globalization enabled a localized route is configured by connecting a
+ * With globalization enabled a localized route can be configured by connecting a
  * continuation route. Once the route has been connected, all the other
  * application routes become localized and may now carry a locale.
  *
  * Requests to routes like `/en/posts/edit/1138` or `/fr/posts/edit/1138` will
  * carry a locale, while `/posts/edit/1138` keeps on working as it did before.
  */
-if ($locales = Environment::get('locales')) {
-	$template = '/{:locale:' . join('|', array_keys($locales)) . '}/{:args}';
-	Router::connect($template, [], ['continue' => true]);
-}
+// Router::connect(
+// 	'/{:locale:' . join('|', array_keys(Environment::get('locales'))) . '}/{:args}',
+// 	[],
+// 	['continue' => true]
+// );
 
 /**
  * ### Basic page routes
