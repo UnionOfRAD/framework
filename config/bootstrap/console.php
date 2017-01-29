@@ -7,6 +7,8 @@
  * The full license text can be found in the LICENSE.txt file.
  */
 
+namespace app\config\bootstrap;
+
 use lithium\aop\Filters;
 use lithium\console\Dispatcher;
 use lithium\core\Environment;

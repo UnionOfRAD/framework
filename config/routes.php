@@ -7,6 +7,8 @@
  * The full license text can be found in the LICENSE.txt file.
  */
 
+namespace app\config;
+
 /**
  * The routes file is where you define your URL structure, which is an important part of the
  * [information architecture](http://en.wikipedia.org/wiki/Information_architecture) of your

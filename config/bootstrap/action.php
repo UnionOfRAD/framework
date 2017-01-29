@@ -7,6 +7,8 @@
  * The full license text can be found in the LICENSE.txt file.
  */
 
+namespace app\config\bootstrap;
+
 /**
  * This file contains a series of method filters that allow you to intercept different parts of
  * Lithium's dispatch cycle. The filters below are used for on-demand loading of routing

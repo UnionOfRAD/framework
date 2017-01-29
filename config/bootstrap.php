@@ -7,6 +7,8 @@
  * The full license text can be found in the LICENSE.txt file.
  */
 
+namespace app\config;
+
 /**
  * This is the primary bootstrap file of your application, and is loaded immediately after the front
  * controller (`webroot/index.php`) is invoked. It includes references to other feature-specific

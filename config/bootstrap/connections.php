@@ -7,6 +7,8 @@
  * The full license text can be found in the LICENSE.txt file.
  */
 
+namespace app\config\bootstrap;
+
 /**
  * ### Configuring backend database connections
  *

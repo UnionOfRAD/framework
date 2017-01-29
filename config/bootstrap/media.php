@@ -7,6 +7,8 @@
  * The full license text can be found in the LICENSE.txt file.
  */
 
+namespace app\config\bootstrap;
+
 /**
  * The `Collection` class, which serves as the base class for some of Lithium's data objects
  * (`RecordSet` and `Document`) provides a way to manage data collections in a very flexible and

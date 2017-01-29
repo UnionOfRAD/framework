@@ -7,6 +7,8 @@
  * The full license text can be found in the LICENSE.txt file.
  */
 
+namespace app\config\bootstrap;
+
 use lithium\action\Dispatcher;
 use lithium\core\ErrorHandler;
 use lithium\action\Response;

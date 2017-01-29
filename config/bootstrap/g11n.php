@@ -7,6 +7,8 @@
  * The full license text can be found in the LICENSE.txt file.
  */
 
+namespace app\config\bootstrap;
+
 /**
  * This bootstrap file contains configurations for all globalizing
  * aspects of your application.

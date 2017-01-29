@@ -7,6 +7,8 @@
  * The full license text can be found in the LICENSE.txt file.
  */
 
+namespace app\config\bootstrap;
+
 /**
  * The libraries file is where you configure the various plugins, frameworks, and other libraries
  * to be used by your application, including your application itself. This file also defines some
