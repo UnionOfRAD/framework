@@ -44,7 +44,7 @@ use lithium\data\Connections;
 // Connections::add('default', [
 // 	'type' => 'MongoDb',
 // 	'host' => 'localhost',
-// 	'database' => 'my_app'
+// 	'database' => 'app'
 // ]);
 
 /**
@@ -54,7 +54,7 @@ use lithium\data\Connections;
 // 	'type' => 'http',
 // 	'adapter' => 'CouchDb',
 // 	'host' => 'localhost',
-// 	'database' => 'my_app'
+// 	'database' => 'app'
 // ]);
 
 /**
@@ -69,7 +69,7 @@ use lithium\data\Connections;
 // 	'host' => 'localhost',
 // 	'login' => 'root',
 // 	'password' => '',
-// 	'database' => 'my_app',
+// 	'database' => 'app',
 // 	'encoding' => 'UTF-8',
 // 	'strict' => false
 // ]);
