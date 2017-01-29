@@ -36,6 +36,7 @@
  * @see lithium\core\Adaptable
  * @see lithium\core\Environment
  */
+
 use lithium\data\Connections;
 
 /**
@@ -58,10 +59,8 @@ use lithium\data\Connections;
 // ]);
 
 /**
- * Uncomment this configuration to use MySQL as your default database.
- *
- * Strict mode can be enabled or disabled, older MySQL versions were
- * by default non-strict.
+ * Uncomment this configuration to use MySQL as your default database. Strict mode can be
+ * enabled or disabled, older MySQL versions were by default non-strict.
  */
 // Connections::add('default', [
 // 	'type' => 'database',
