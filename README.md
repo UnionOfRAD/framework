@@ -15,7 +15,7 @@ run the following command to create an initial project from this distribution:
 composer create-project unionofrad/framework project
 ```
 
-Inside the the `project` directory start the builtin PHP development webserver.
+Inside the `project` directory start the builtin PHP development webserver.
 
 ```
 php -S 127.0.0.1:8080 -t app/webroot index.php
