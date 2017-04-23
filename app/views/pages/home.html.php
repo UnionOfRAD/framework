@@ -1,9 +1,10 @@
 <?php
 /**
- * Lithium: the most rad php framework
+ * li₃: the most RAD framework for PHP (http://li3.me)
  *
- * @copyright     Copyright 2016, Union of RAD (http://union-of-rad.org)
- * @license       http://opensource.org/licenses/bsd-license.php The BSD License
+ * Copyright 2016, Union of RAD. All rights reserved. This source
+ * code is distributed under the terms of the BSD 3-Clause License.
+ * The full license text can be found in the LICENSE.txt file.
  */
 
 use lithium\core\Libraries;
@@ -11,9 +12,7 @@ use lithium\core\Environment;
 use lithium\data\Connections;
 
 $this->title('Home');
-$this->html->style('debug', array('inline' => false));
-
-$self = $this;
+$this->html->style('debug', ['inline' => false]);
 
 $notify = function($status, $message, $solution = null) {
 	$html  = "<h4 class=\"alert alert-{$status}\">{$message}</h4>";
@@ -21,7 +20,11 @@ $notify = function($status, $message, $solution = null) {
 	return $html;
 };
 
-$support = function($heading, $data) {
+$docUrl = function($class) {
+	return 'http://li3.me/docs/api/lithium/1.1.x/lithium/' . str_replace('\\', '/', $class);
+};
+
+$support = function($heading, $data) use ($docUrl) {
 	$result = "<h3>{$heading}</h3>";
 
 	if (is_string($data)) {
@@ -31,7 +34,7 @@ $support = function($heading, $data) {
 
 	foreach ($data as $class => $enabled) {
 		$name = substr($class, strrpos($class, '\\') + 1);
-		$url = 'http://li3.me/docs/' . str_replace('\\', '/', $class);
+		$url = $docUrl($class);
 		$class = $enabled ? 'enabled' : 'disabled';
 		$title = $enabled ? "Adapter `{$name}` is enabled." : "Adapter `{$name}` is disabled.";
 		$result .= "<li><a href=\"{$url}\" title=\"{$title}\" class=\"{$class}\">{$name}</a></li>";
@@ -47,7 +50,7 @@ $compiled = function($flag) {
 	return strpos(ob_get_clean(), $flag) !== false;
 };
 
-$checks = array(
+$checks = [
 	'resourcesWritable' => function() use ($notify) {
 		if (is_writable($path = Libraries::get(true, 'resources'))) {
 			return $notify('success', 'Resources directory is writable');
@@ -84,16 +87,6 @@ $checks = array(
 			'Please set <code>error_reporting = E_ALL</code> in your <code>php.ini</code> settings.'
 		);
 	},
-	'magicQuotes' => function() use ($notify) {
-		if (!get_magic_quotes_gpc()) {
-			return;
-		}
-		return $notify(
-			'error',
-			'Magic quotes are enabled in your PHP configuration',
-			'Please set <code>magic_quotes_gpc = Off</code> in your <code>php.ini</code> settings.'
-		);
-	},
 	'mbstringFuncOverload' => function() use ($notify) {
 		if (!ini_get('mbstring.func_overload')) {
 			return;
@@ -103,16 +96,6 @@ $checks = array(
 			'Multibyte String function overlading is enabled in your PHP configuration',
 			'Please set <code>mbstring.func_overload = 0</code>
 			in your <code>php.ini</code> settings.'
-		);
-	},
-	'registerGlobals' => function() use ($notify) {
-		if (!ini_get('register_globals')) {
-			return;
-		}
-		return $notify(
-			'error',
-			'Register globals is enabled in your PHP configuration',
-			'Please set <code>register_globals = Off</code> in your <code>php.ini</code> settings.'
 		);
 	},
 	'curlwrappers' => function() use ($notify, $compiled) {
@@ -157,8 +140,8 @@ $checks = array(
 			</ol>"
 		);
 	},
-	'change' => function() use ($notify, $self) {
-		$template = $self->html->link('template', 'http://li3.me/docs/lithium/template');
+	'change' => function() use ($notify, $docUrl) {
+		$template = $this->html->link('template', $docUrl('lithium\template'));
 
 		return $notify(
 			'warning',
@@ -171,26 +154,37 @@ $checks = array(
 		);
 	},
 	'dbSupport' => function() use ($support) {
-		$paths = array('data.source', 'adapter.data.source.database', 'adapter.data.source.http');
-		$list = array();
+		$paths = ['data.source', 'adapter.data.source.database', 'adapter.data.source.http'];
+		$map = [];
 
+		error_reporting(($original = error_reporting()) & ~E_USER_DEPRECATED);
 		foreach ($paths as $path) {
-			$list = array_merge($list, Libraries::locate($path, null, array('recursive' => false)));
-		}
-		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
-		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
+			$list = Libraries::locate($path, null, ['recursive' => false]);
 
+			foreach ($list as $class) {
+				if (method_exists($class, 'enabled')) {
+					$map[$class] = $class::enabled();
+				}
+			}
+		}
+		error_reporting($original);
 		return $support('Database support', $map);
 	},
 	'cacheSupport' => function() use ($support) {
-		$list = Libraries::locate('adapter.storage.cache', null, array('recursive' => false));
-		$list = array_filter($list, function($class) { return method_exists($class, 'enabled'); });
-		$map = array_combine($list, array_map(function($c) { return $c::enabled(); }, $list));
+		$list = Libraries::locate('adapter.storage.cache', null, ['recursive' => false]);
+		$map = [];
 
+		error_reporting(($original = error_reporting()) & ~E_USER_DEPRECATED);
+		foreach ($list as $class) {
+			if (method_exists($class, 'enabled')) {
+				$map[$class] = $class::enabled();
+			}
+		}
+		error_reporting($original);
 		return $support('Cache support', $map);
 	},
-	'routing' => function() use ($support, $self) {
-		$routing = $self->html->link('routing', 'http://li3.me/docs/lithium/net/http/Router');
+	'routing' => function() use ($support, $docUrl) {
+		$routing = $this->html->link('routing', $docUrl('lithium\net\http\Router'));
 
 		return $support(
 			'Custom routing',
@@ -198,11 +192,11 @@ $checks = array(
 			{$routing}, edit the file <code>config/routes.php</code>."
 		);
 	},
-	'tests' => function() use ($notify, $support, $self) {
+	'tests' => function() use ($notify, $support, $docUrl) {
 		if (Environment::is('production')) {
-			$docsLink = $self->html->link(
+			$docsLink = $this->html->link(
 				'the documentation',
-				'http://li3.me/docs/lithium/core/Environment::is()'
+				$docUrl('lithium\core\Environment::is()')
 			);
 
 			return $notify(
@@ -221,14 +215,14 @@ $checks = array(
 				</ul>"
 			);
 		}
-		$tests = $self->html->link('run all tests', array(
+		$tests = $this->html->link('run all tests', [
 			'controller' => 'lithium\test\Controller',
 			'args' => 'all'
-		));
-		$dashboard = $self->html->link('test dashboard', array(
+		]);
+		$dashboard = $this->html->link('test dashboard', [
 			'controller' => 'lithium\test\Controller'
-		));
-		$ticket = $self->html->link(
+		]);
+		$ticket = $this->html->link(
 			'file a ticket', 'https://github.com/UnionOfRAD/lithium/issues'
 		);
 
@@ -237,7 +231,7 @@ $checks = array(
 			"Check the {$dashboard} or {$tests} now to ensure Lithium is working as expected."
 		);
 	}
-);
+];
 
 ?>
 <div class="jumbotron">
@@ -264,29 +258,18 @@ $checks = array(
 <h3>Learn more</h3>
 <p>
 	Read the
-	<?php echo $this->html->link('Manual', 'http://li3.me/docs/lithium'); ?>
+	<?php echo $this->html->link('Manual', 'http://li3.me/docs/book/manual/1.x'); ?>
 	for detailed explanations and tutorials. The
-	<?php echo $this->html->link('API documentation', 'http://li3.me/docs/lithium'); ?>
+	<?php echo $this->html->link('API documentation', 'http://li3.me/docs/api/lithium/1.1.x'); ?>
 	has all the implementation details you've been looking for.
 </p>
 
 <h3>Community</h3>
 <p>
-	Chat with other Lithium users and the team developing Lithium.
+	li3 is not just a framework, but the embodiment of a community. This community is dedicated to open collaboration and friendly discourse, with the goal of producing better quality software.
+	Most importantly, you are invited to <em>participate</em>.
 </p>
 <p>
-	For <strong>general support</strong> hop on the
-	<?php echo $this->html->link('#li3 channel', 'irc://irc.freenode.net/#li3'); ?>
-	or read the
-	<?php echo $this->html->link('logs', 'http://li3.me/bot/logs/li3'); ?>.
-</p>
-<p>
-	For <strong>core discussions</strong> join us in the
-	<?php echo $this->html->link('#li3-core channel', 'irc://irc.freenode.net/#li3-core'); ?>
-	or read the
-	<?php echo $this->html->link('logs', 'http://li3.me/bot/logs/li3-core'); ?>.
-</p>
-<p>
-	Browse the Lithium
-	<?php echo $this->html->link('Source', 'https://github.com/UnionOfRAD/lithium'); ?>
+	For <strong>general support</strong> have a look on the questions tagged with <em>lithium</em>
+	<?php echo $this->html->link('on stackoverflow', 'http://stackoverflow.com/questions/tagged/lithium') ?>.
 </p>

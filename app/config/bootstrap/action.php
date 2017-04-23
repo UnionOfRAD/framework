@@ -1,9 +1,10 @@
 <?php
 /**
- * Lithium: the most rad php framework
+ * li₃: the most RAD framework for PHP (http://li3.me)
  *
- * @copyright     Copyright 2016, Union of RAD (http://union-of-rad.org)
- * @license       http://opensource.org/licenses/bsd-license.php The BSD License
+ * Copyright 2016, Union of RAD. All rights reserved. This source
+ * code is distributed under the terms of the BSD 3-Clause License.
+ * The full license text can be found in the LICENSE.txt file.
  */
 
 /**
@@ -12,14 +13,15 @@
  * configuration, and automatically configuring the correct environment in which the application
  * runs.
  *
- * For more information on in the filters system, see `lithium\util\collection\Filters`.
+ * For more information on in the filters system, see `lithium\aop\Filters`.
  *
- * @see lithium\util\collection\Filters
+ * @see lithium\aop\Filters
  */
 
+use lithium\action\Dispatcher;
+use lithium\aop\Filters;
 use lithium\core\Libraries;
 use lithium\core\Environment;
-use lithium\action\Dispatcher;
 
 /**
  * This filter intercepts the `run()` method of the `Dispatcher`, and first passes the `'request'`
@@ -38,7 +40,7 @@ use lithium\action\Dispatcher;
  * @see lithium\core\Environment
  * @see lithium\net\http\Router
  */
-Dispatcher::applyFilter('run', function($self, $params, $chain) {
+Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	Environment::set($params['request']);
 
 	foreach (array_reverse(Libraries::get()) as $name => $config) {
@@ -48,7 +50,7 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 		$file = "{$config['path']}/config/routes.php";
 		file_exists($file) ? call_user_func(function() use ($file) { include $file; }) : null;
 	}
-	return $chain->next($self, $params, $chain);
+	return $next($params);
 });
 
 ?>

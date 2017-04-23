@@ -1,27 +1,28 @@
 <?php
 /**
- * Lithium: the most rad php framework
+ * li₃: the most RAD framework for PHP (http://li3.me)
  *
- * @copyright     Copyright 2016, Union of RAD (http://union-of-rad.org)
- * @license       http://opensource.org/licenses/bsd-license.php The BSD License
+ * Copyright 2016, Union of RAD. All rights reserved. This source
+ * code is distributed under the terms of the BSD 3-Clause License.
+ * The full license text can be found in the LICENSE.txt file.
  */
 
 /**
  * This bootstrap file contains configurations for all globalizing
  * aspects of your application.
  */
+use lithium\action\Dispatcher as ActionDispatcher;
+use lithium\aop\Filters;
 use lithium\core\Libraries;
+use lithium\console\Dispatcher as ConsoleDispatcher;
 use lithium\core\Environment;
 use lithium\g11n\Locale;
 use lithium\g11n\Catalog;
 use lithium\g11n\Message;
 use lithium\g11n\Multibyte;
+use lithium\net\http\Media;
 use lithium\util\Inflector;
 use lithium\util\Validator;
-use lithium\net\http\Media;
-use lithium\action\Dispatcher as ActionDispatcher;
-use lithium\console\Dispatcher as ConsoleDispatcher;
-use RuntimeException;
 
 /**
  * Dates
@@ -49,11 +50,11 @@ date_default_timezone_set('UTC');
  * @see lithium\core\Environment
  */
 $locale = 'en';
-$locales = array('en' => 'English');
+$locales = ['en' => 'English'];
 
 Environment::set('production', compact('locale', 'locales'));
 Environment::set('development', compact('locale', 'locales'));
-Environment::set('test', array('locale' => 'en', 'locales' => array('en' => 'English')));
+Environment::set('test', ['locale' => 'en', 'locales' => ['en' => 'English']]);
 
 /**
  * Effective/Request Locale
@@ -65,16 +66,16 @@ Environment::set('test', array('locale' => 'en', 'locales' => array('en' => 'Eng
  * @see lithium\g11n\Message
  * @see lithium\core\Environment
  */
-$setLocale = function($self, $params, $chain) {
+$setLocale = function($params, $next) {
 	if (!$params['request']->locale()) {
 		$params['request']->locale(Locale::preferred($params['request']));
 	}
-	Environment::set(true, array('locale' => $params['request']->locale()));
+	Environment::set(true, ['locale' => $params['request']->locale()]);
 
-	return $chain->next($self, $params, $chain);
+	return $next($params);
 };
-ActionDispatcher::applyFilter('_callable', $setLocale);
-ConsoleDispatcher::applyFilter('_callable', $setLocale);
+Filters::apply(ActionDispatcher::class, '_callable', $setLocale);
+Filters::apply(ConsoleDispatcher::class, '_callable', $setLocale);
 
 /**
  * Resources
@@ -98,19 +99,20 @@ ConsoleDispatcher::applyFilter('_callable', $setLocale);
  * @link https://github.com/UnionOfRAD/li3_lldr
  * @link https://github.com/UnionOfRAD/li3_cldr
  */
-Catalog::config(array(
-	'runtime' => array(
+
+Catalog::config([
+	'runtime' => [
 		'adapter' => 'Memory'
-	),
-	// 'app' => array(
+	],
+	// 'app' => [
 	// 	'adapter' => 'Gettext',
 	// 	'path' => Libraries::get(true, 'resources') . '/g11n'
-	// ),
-	'lithium' => array(
+	// ],
+	'lithium' => [
 		'adapter' => 'Php',
 		'path' => LITHIUM_LIBRARY_PATH . '/lithium/g11n/resources/php'
-	)
-) + Catalog::config());
+	]
+] + Catalog::config());
 
 /**
  * Multibyte Strings
@@ -124,11 +126,11 @@ Catalog::config(array(
  *
  * @see lithium\g11n\Multibyte
  */
-Multibyte::config(array(
-//	'default' => array('adapter' => 'Intl'),
-	'default' => array('adapter' => 'Mbstring'),
-//	'default' => array('adapter' => 'Iconv')
-) + Multibyte::config());
+Multibyte::config([
+//	'default' => ['adapter' => 'Intl'],
+	'default' => ['adapter' => 'Mbstring'],
+//	'default' => ['adapter' => 'Iconv']
+] + Multibyte::config());
 
 /**
  * Transliteration
@@ -141,7 +143,7 @@ Multibyte::config(array(
  * @see lithium\util\Inflector::slug()
  */
 // Inflector::rules('transliteration', Catalog::read(true, 'inflection.transliteration', 'en'));
-// Inflector::rules('transliteration', array('/É|Ê/' => 'E'));
+// Inflector::rules('transliteration', ['/É|Ê/' => 'E']);
 
 /**
  * Grammar
@@ -152,12 +154,12 @@ Multibyte::config(array(
  * @see lithium\g11n\Catalog
  * @see lithium\util\Inflector
  */
-// Inflector::rules('singular', array('rules' => array('/rata/' => '\1ratus')));
-// Inflector::rules('singular', array('irregular' => array('foo' => 'bar')));
-// Inflector::rules('plural', array('rules' => array('/rata/' => '\1ratum')));
-// Inflector::rules('plural', array('irregular' => array('bar' => 'foo')));
+// Inflector::rules('singular', ['rules' => ['/rata/' => '\1ratus']]);
+// Inflector::rules('singular', ['irregular' => ['foo' => 'bar']]);
+// Inflector::rules('plural', ['rules' => ['/rata/' => '\1ratum']]);
+// Inflector::rules('plural', ['irregular' => ['bar' => 'foo']]);
 // Inflector::rules('uninflected', 'bord');
-// Inflector::rules('uninflected', array('bord', 'baird'));
+// Inflector::rules('uninflected', ['bord', 'baird']);
 
 /**
  * Validation
@@ -168,10 +170,10 @@ Multibyte::config(array(
  *
  * {{{
  * // ...
- *	public $validates = array(
- *		'zip' => array(
- *			array('postalCode', 'format' => 'de_DE')
- *		)
+ *	public $validates = (
+ *		'zip' => [
+ *			['postalCode', 'format' => 'de_DE']
+ *		]
  *		// ...
  * }}}
  *
@@ -191,7 +193,7 @@ Multibyte::config(array(
  * @see lithium\g11n\Multibyte
  * @see lithium\util\Validator
  */
-foreach (array('phone', 'postalCode', 'ssn') as $name) {
+foreach (['phone', 'postalCode', 'ssn'] as $name) {
 	$regex = Validator::rules($name);
 
 	Validator::add($name, function($value, $format, $options) use ($name, $regex) {
@@ -208,7 +210,7 @@ foreach (array('phone', 'postalCode', 'ssn') as $name) {
 }
 Validator::add('lengthBetween', function($value, $format, $options) {
 	$length = Multibyte::strlen($value);
-	$options += array('min' => 1, 'max' => 255);
+	$options += ['min' => 1, 'max' => 255];
 	return ($length >= $options['min'] && $length <= $options['max']);
 });
 
@@ -222,10 +224,10 @@ Validator::add('lengthBetween', function($value, $format, $options) {
  * @see lithium\g11n\Message::aliases()
  * @see lithium\net\http\Media
  */
-Media::applyFilter('_handle', function($self, $params, $chain) {
-	$params['handler'] += array('outputFilters' => array());
+Filters::apply(Media::class, '_handle', function($params, $next) {
+	$params['handler'] += ['outputFilters' => []];
 	$params['handler']['outputFilters'] += Message::aliases();
-	return $chain->next($self, $params, $chain);
+	return $next($params);
 });
 
 ?>

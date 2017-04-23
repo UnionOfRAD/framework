@@ -1,9 +1,10 @@
 <?php
 /**
- * Lithium: the most rad php framework
+ * li₃: the most RAD framework for PHP (http://li3.me)
  *
- * @copyright     Copyright 2016, Union of RAD (http://union-of-rad.org)
- * @license       http://opensource.org/licenses/bsd-license.php The BSD License
+ * Copyright 2016, Union of RAD. All rights reserved. This source
+ * code is distributed under the terms of the BSD 3-Clause License.
+ * The full license text can be found in the LICENSE.txt file.
  */
 
 /**
@@ -22,17 +23,18 @@ use lithium\core\Environment;
 /**
  * ### Continuation routes
  *
- * With globalization enabled a localized route is configured by connecting a
+ * With globalization enabled a localized route can be configured by connecting a
  * continuation route. Once the route has been connected, all the other
  * application routes become localized and may now carry a locale.
  *
  * Requests to routes like `/en/posts/edit/1138` or `/fr/posts/edit/1138` will
  * carry a locale, while `/posts/edit/1138` keeps on working as it did before.
  */
-if ($locales = Environment::get('locales')) {
-	$template = '/{:locale:' . join('|', array_keys($locales)) . '}/{:args}';
-	Router::connect($template, array(), array('continue' => true));
-}
+// Router::connect(
+// 	'/{:locale:' . join('|', array_keys(Environment::get('locales'))) . '}/{:args}',
+// 	[],
+// 	['continue' => true]
+// );
 
 /**
  * ### Basic page routes
@@ -61,8 +63,8 @@ Router::connect('/pages/{:args}', 'Pages::view');
  * [http://path/to/app/test](/test) to run tests.
  */
 if (!Environment::is('production')) {
-	Router::connect('/test/{:args}', array('controller' => 'lithium\test\Controller'));
-	Router::connect('/test', array('controller' => 'lithium\test\Controller'));
+	Router::connect('/test/{:args}', ['controller' => 'lithium\test\Controller']);
+	Router::connect('/test', ['controller' => 'lithium\test\Controller']);
 }
 
 /**
@@ -76,14 +78,14 @@ if (!Environment::is('production')) {
  * is an integer, uncomment the routes below to enable URLs like `/posts/edit/1138`,
  * `/posts/view/1138.json`, etc.
  */
-// Router::connect('/{:controller}/{:action}/{:id:\d+}.{:type}', array('id' => null));
+// Router::connect('/{:controller}/{:action}/{:id:\d+}.{:type}', ['id' => null]);
 // Router::connect('/{:controller}/{:action}/{:id:\d+}');
 
 /**
  * If you're using a document-oriented database, such as CouchDB or MongoDB, or another type of
  * database which uses 24-character hexidecimal values as primary keys, uncomment the routes below.
  */
-// Router::connect('/{:controller}/{:action}/{:id:[0-9a-f]{24}}.{:type}', array('id' => null));
+// Router::connect('/{:controller}/{:action}/{:id:[0-9a-f]{24}}.{:type}', ['id' => null]);
 // Router::connect('/{:controller}/{:action}/{:id:[0-9a-f]{24}}');
 
 /**

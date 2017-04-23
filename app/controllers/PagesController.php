@@ -1,9 +1,10 @@
 <?php
 /**
- * Lithium: the most rad php framework
+ * li₃: the most RAD framework for PHP (http://li3.me)
  *
- * @copyright     Copyright 2016, Union of RAD (http://union-of-rad.org)
- * @license       http://opensource.org/licenses/bsd-license.php The BSD License
+ * Copyright 2016, Union of RAD. All rights reserved. This source
+ * code is distributed under the terms of the BSD 3-Clause License.
+ * The full license text can be found in the LICENSE.txt file.
  */
 
 namespace app\controllers;
@@ -26,12 +27,12 @@ namespace app\controllers;
 class PagesController extends \lithium\action\Controller {
 
 	public function view() {
-		$options = array();
+		$options = [];
 		$path = func_get_args();
 
-		if (!$path || $path === array('home')) {
-			$path = array('home');
-			$options['compiler'] = array('fallback' => true);
+		if (!$path || $path === ['home']) {
+			$path = ['home'];
+			$options['compiler'] = ['fallback' => true];
 		}
 
 		$options['template'] = join('/', $path);

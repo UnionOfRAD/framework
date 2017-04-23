@@ -1,9 +1,10 @@
 <?php
 /**
- * Lithium: the most rad php framework
+ * li₃: the most RAD framework for PHP (http://li3.me)
  *
- * @copyright     Copyright 2016, Union of RAD (http://union-of-rad.org)
- * @license       http://opensource.org/licenses/bsd-license.php The BSD License
+ * Copyright 2016, Union of RAD. All rights reserved. This source
+ * code is distributed under the terms of the BSD 3-Clause License.
+ * The full license text can be found in the LICENSE.txt file.
  */
 
 /**
@@ -40,33 +41,37 @@ use lithium\data\Connections;
 /**
  * Uncomment this configuration to use MongoDB as your default database.
  */
-// Connections::add('default', array(
+// Connections::add('default', [
 // 	'type' => 'MongoDb',
 // 	'host' => 'localhost',
 // 	'database' => 'my_app'
-// ));
+// ]);
 
 /**
  * Uncomment this configuration to use CouchDB as your default database.
  */
-// Connections::add('default', array(
+// Connections::add('default', [
 // 	'type' => 'http',
 // 	'adapter' => 'CouchDb',
 // 	'host' => 'localhost',
 // 	'database' => 'my_app'
-// ));
+// ]);
 
 /**
  * Uncomment this configuration to use MySQL as your default database.
+ *
+ * Strict mode can be enabled or disabled, older MySQL versions were
+ * by default non-strict.
  */
-// Connections::add('default', array(
+// Connections::add('default', [
 // 	'type' => 'database',
 // 	'adapter' => 'MySql',
 // 	'host' => 'localhost',
 // 	'login' => 'root',
 // 	'password' => '',
 // 	'database' => 'my_app',
-// 	'encoding' => 'UTF-8'
-// ));
+// 	'encoding' => 'UTF-8',
+// 	'strict' => false
+// ]);
 
 ?>
