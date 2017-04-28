@@ -23,8 +23,8 @@ php -S 127.0.0.1:8080 -t app/webroot index.php
 
 You should now be able to see the welcome page by visiting [http://127.0.0.1:8080](http://127.0.0.1:8080).
 
-The manual has more information on [the installation process](http://li3.me/docs/manual/installation) 
-as well as [getting your first project started very quickly](http://li3.me/docs/manual/quickstart).
+The manual has more information on [the installation process](http://li3.me/docs/book/manual/1.x/installation/)
+as well as [getting your first project started very quickly](http://li3.me/docs/book/manual/1.x/quickstart).
 
 ## Copyright & License
 
