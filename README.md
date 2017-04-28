@@ -28,7 +28,7 @@ as well as [getting your first project started very quickly](http://li3.me/docs/
 
 ## Copyright & License
 
-Copyright 2016 Union of RAD. All rights reserved. This library
+Copyright 2015 Union of RAD. All rights reserved. This library
 is distributed under the terms of the BSD 3-Clause License. The
 full license text can be found in the LICENSE.txt file.
 
