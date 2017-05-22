@@ -17,6 +17,7 @@
  * @see lithium\util\collection\Filters
  */
 
+use Exception;
 use lithium\core\Libraries;
 use lithium\core\Environment;
 use lithium\action\Dispatcher;
@@ -50,5 +51,26 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 	}
 	return $chain->next($self, $params, $chain);
 });
+
+/**
+ * This filter protects against HTTP host header attacks, by matching the `Host` header
+ * sent by the client against a known list of good hostnames. You'll need to modify
+ * the list of hostnames inside the filter before using it.
+ *
+ * @link http://li3.me/docs/book/manual/1.x/quality-code/security
+ * @link http://www.skeletonscribe.net/2013/05/practical-http-host-header-attacks.html
+ */
+// Dispatcher::applyFilter('run', function($self, $params, $chain) {
+// 	$whitelist = array(
+// 		'example.org',
+// 		'www.example.org'
+// 	);
+// 	foreach ($whitelist as $host) {
+// 		if ($params['request']->host === $host) {
+// 			return $chain->next($self, $params, $chain);
+// 		}
+// 	}
+// 	throw new Exception('Suspicious Operation');
+// });
 
 ?>
