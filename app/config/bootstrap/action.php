@@ -18,10 +18,11 @@
  * @see lithium\aop\Filters
  */
 
+use Exception;
 use lithium\action\Dispatcher;
 use lithium\aop\Filters;
-use lithium\core\Libraries;
 use lithium\core\Environment;
+use lithium\core\Libraries;
 
 /**
  * This filter intercepts the `run()` method of the `Dispatcher`, and first passes the `'request'`
@@ -52,5 +53,26 @@ Filters::apply(Dispatcher::class, 'run', function($params, $next) {
 	}
 	return $next($params);
 });
+
+/**
+ * This filter protects against HTTP host header attacks, by matching the `Host` header
+ * sent by the client against a known list of good hostnames. You'll need to modify
+ * the list of hostnames inside the filter before using it.
+ *
+ * @link http://li3.me/docs/book/manual/1.x/quality-code/security
+ * @link http://www.skeletonscribe.net/2013/05/practical-http-host-header-attacks.html
+ */
+// Filters::apply(Dispatcher::class, 'run', function($params, $next) {
+// 	$whitelist = [
+// 		'example.org',
+// 		'www.example.org'
+// 	];
+// 	foreach ($whitelist as $host) {
+// 		if ($params['request']->host === $host) {
+// 			return $next($params);
+// 		}
+// 	}
+// 	throw new Exception('Suspicious Operation');
+// });
 
 ?>
