@@ -78,7 +78,7 @@ Dispatcher::applyFilter('run', function($self, $params, $chain) {
 });
 
 Dispatcher::applyFilter('run', function($self, $params, $chain) {
-	foreach (Connections::get() as $name) {
+	foreach (Connections::get(null, array('autoCreate' => false)) as $name) {
 		if (!(($connection = Connections::get($name)) instanceof Database)) {
 			continue;
 		}
