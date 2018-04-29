@@ -15,6 +15,6 @@
     "prefer-stable": true,
     "require": {
         "php": ">=5.5.0",
-        "unionofrad/lithium": "^1.1"
+        "unionofrad/lithium": "1.2.x-dev"
     }
 }
