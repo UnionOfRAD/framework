@@ -21,7 +21,7 @@ $notify = function($status, $message, $solution = null) {
 };
 
 $docUrl = function($class) {
-	return 'http://li3.me/docs/api/lithium/1.1.x/lithium/' . str_replace('\\', '/', $class);
+	return 'http://li3.me/docs/api/lithium/1.2.x/lithium/' . str_replace('\\', '/', $class);
 };
 
 $support = function($heading, $data) use ($docUrl) {
