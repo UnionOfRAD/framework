@@ -2,7 +2,7 @@
 /**
  * Lithium: the most rad php framework
  *
- * @copyright     Copyright 2016, Union of RAD (http://union-of-rad.org)
+ * @copyright     Copyright 2009, Union of RAD (http://union-of-rad.org)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
@@ -17,7 +17,7 @@
  * the following command:
  *
  * ```
- * php -S 127.0.0.1:8080 -t app/webroot index.php
+ * php -S 127.0.0.1:8080 -t webroot index.php
  * ```
  *
  * @link http://php.net/manual/en/features.commandline.webserver.php
@@ -25,7 +25,7 @@
 if (PHP_SAPI === 'cli-server') {
 	$_SERVER['PHP_SELF'] = '/index.php';
 
-	if ($_SERVER['REQUEST_URI'] != '/' && file_exists('./app/webroot' . $_SERVER['REQUEST_URI'])) {
+	if ($_SERVER['REQUEST_URI'] != '/' && file_exists('./webroot' . $_SERVER['REQUEST_URI'])) {
 		return false;
 	}
 }
@@ -33,6 +33,6 @@ if (PHP_SAPI === 'cli-server') {
 /**
  * Include and forward to the actual front-controller.
  */
-require 'app/webroot/index.php';
+require 'webroot/index.php';
 
 ?>

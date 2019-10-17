@@ -14,7 +14,7 @@
     },
     "prefer-stable": true,
     "require": {
-        "php": ">=5.5.0",
-        "unionofrad/lithium": "^1.1"
+        "php": "^5.6 || ~7.0.3 || ~7.1.0 || ~7.2.0 || ~7.3.0",
+        "unionofrad/lithium": "^1.2.0"
     }
 }
