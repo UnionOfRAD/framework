@@ -202,7 +202,7 @@ $checks = [
 			return $notify(
 				'error',
 				"Can't run tests",
-				"<p>Lithium's default environment detection rules have determined that you are
+				"<p>li₃'s default environment detection rules have determined that you are
 				running in production mode. Therefore, you will not be able to run tests from the
 				web interface. You can do any of the following to remedy this:</p>
 				<ul>
@@ -228,7 +228,7 @@ $checks = [
 
 		return $support(
 			'Run the tests',
-			"Check the {$dashboard} or {$tests} now to ensure Lithium is working as expected."
+			"Check the {$dashboard} or {$tests} now to ensure li₃ is working as expected."
 		);
 	}
 ];
@@ -260,7 +260,7 @@ $checks = [
 	Read the
 	<?php echo $this->html->link('Manual', 'http://li3.me/docs/book/manual/1.x'); ?>
 	for detailed explanations and tutorials. The
-	<?php echo $this->html->link('API documentation', 'http://li3.me/docs/api/lithium/1.1.x'); ?>
+	<?php echo $this->html->link('API documentation', 'https://li3.me/docs/api/lithium/1.2.x/lithium'); ?>
 	has all the implementation details you've been looking for.
 </p>
 

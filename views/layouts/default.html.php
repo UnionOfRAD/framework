@@ -29,7 +29,7 @@
 					<a href="http://li3.me/docs/book/manual/1.x/">Manual</a>
 				</li>
 				<li>
-					<a href="http://li3.me/docs/api/lithium/1.1.x/lithium">API</a>
+					<a href="http://li3.me/docs/api/lithium/1.2.x/lithium">API</a>
 				</li>
 				<li>
 					<a href="http://li3.me/">More</a>
