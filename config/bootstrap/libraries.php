@@ -71,7 +71,7 @@ if (!include LITHIUM_LIBRARY_PATH . '/lithium/core/Libraries.php') {
 	$message  = "Lithium core could not be found.  Check the value of LITHIUM_LIBRARY_PATH in ";
 	$message .= __FILE__ . ".  It should point to the directory containing your ";
 	$message .= "/libraries directory.";
-	throw new ErrorException($message);
+	throw new \ErrorException($message);
 }
 
 use lithium\core\Libraries;
@@ -81,8 +81,7 @@ use lithium\core\Libraries;
  * request/response or dispatch classes, you can safely remove these.  Actually, you can safely
  * remove them anyway, they're just there to give slightly you better out-of-the-box performance.
  */
-require LITHIUM_LIBRARY_PATH . '/lithium/core/ObjectDeprecated.php';
-require LITHIUM_LIBRARY_PATH . '/lithium/core/StaticObjectDeprecated.php';
+require LITHIUM_LIBRARY_PATH . '/lithium/core/AutoConfigurable.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/core/MergeInheritable.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/aop/Filters.php';
 require LITHIUM_LIBRARY_PATH . '/lithium/util/Inflector.php';
